@@ -1,15 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import SideBar from './components/SideBar';
+// import NewFile from './components/NewFile';
+import NoFilePage from './components/NoFilePage';
 
 function App() {
 	return (
-		<>
-			<section className="h-screen my-8">
+		<section className=" bg-slate-800">
+			<section className="h-screen py-8 flex gap-10">
 				<SideBar />
+				<NoFilePage />
+				{/* <NewFile /> */}
 			</section>
-		</>
+		</section>
 	);
 }
 
