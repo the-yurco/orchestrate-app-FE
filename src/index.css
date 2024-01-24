@@ -1,17 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-body {
-	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-		sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+* {
+	font-family: 'Indie Flower', cursive;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-		monospace;
+@font-face {
+	font-family: 'TitleFontales';
+	src: url('../public/fonts/3D-Thirteen-Pixel-Fonts.ttf') format('truetype');
+}
+
+.title_font {
+	font-family: 'TitleFontales' !important;
 }

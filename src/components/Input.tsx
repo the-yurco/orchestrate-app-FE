@@ -17,12 +17,12 @@ const Input = ({ isInput, label, ...props }: Props) => {
 				{isInput ? (
 					<input
 						{...props}
-						className="rounded-md px-2 py-1 text-black bg-stone-200"
+						className="rounded-sm px-2 py-1 text-black bg-stone-200"
 					/>
 				) : (
 					<textarea
 						{...props}
-						className="rounded-md px-2 py-1 text-black bg-stone-200"
+						className="rounded-sm px-2 py-1 text-black bg-stone-200"
 					/>
 				)}
 			</p>
