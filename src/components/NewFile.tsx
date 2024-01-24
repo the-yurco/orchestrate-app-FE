@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { MouseEventHandler, useRef } from 'react';
 import Input from './Input';
 import ButtonComponent from './Button';
 import { FaFileUpload } from 'react-icons/fa';
 
-type Props = {};
+type Props = {
+	onAddFile: MouseEventHandler<HTMLButtonElement>;
+};
 
-const NewFile = (props: Props) => {
+const NewFile = ({ onAddFile }: Props) => {
 	return (
 		<section className="w-[35rem] pt-16 pb-8 border border-neutral-700 bg-neutral-900 px-10 flex flex-col gap-10 text-stone-50 justify-between rounded-sm">
 			<div className="flex flex-col gap-4">
@@ -22,7 +24,10 @@ const NewFile = (props: Props) => {
 			<menu className="flex gap-2">
 				<li>
 					{/* <ButtonComponent buttonName={'Cancel'} /> */}
-					<button className="px-4 py-1 border border-neutral-700 bg-neutral-900 rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300">
+					<button
+						className="px-4 py-1 border border-neutral-700 bg-neutral-900 rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300"
+						// onChange={onAddFile}
+					>
 						Cancel
 					</button>
 				</li>
