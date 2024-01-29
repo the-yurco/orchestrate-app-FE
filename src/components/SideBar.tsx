@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CiFileOn } from 'react-icons/ci';
+import { CiCirclePlus, CiFileOn, CiInboxOut } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
 
 type FileData = {
@@ -10,11 +10,17 @@ type FileData = {
 
 type SideBarProps = {
 	onAddFile: () => void;
+	onUploadFile: () => void;
 	files: FileData[];
 	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
 };
 
-const SideBar: React.FC<SideBarProps> = ({ onAddFile, files, setFiles }) => {
+const SideBar: React.FC<SideBarProps> = ({
+	onAddFile,
+	files,
+	setFiles,
+	onUploadFile
+}) => {
 	const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
 
 	const openFileViewer = (file: FileData) => {
@@ -60,16 +66,16 @@ const SideBar: React.FC<SideBarProps> = ({ onAddFile, files, setFiles }) => {
 			</ul>
 			<div className="mt-8 flex gap-1 flex-col">
 				<button
-					onClick={onAddFile}
-					className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase"
+					onClick={onUploadFile}
+					className="px-4 py-1 border border-neutral-700 bg-neutral-800 rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 				>
-					+ Add File
+					<CiInboxOut /> Upload File
 				</button>
 				<button
-					onClick={() => console.log('Add Folder')} // Placeholder action for adding folders
-					className="px-4 py-1 border border-neutral-700 bg-neutral-900  rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300 w-full uppercase"
+					onClick={onAddFile}
+					className="px-4 py-1 border border-neutral-700 bg-neutral-800 rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 				>
-					+ Add Folder
+					<CiCirclePlus /> Create File
 				</button>
 			</div>
 

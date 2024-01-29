@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CiFloppyDisk, CiSquareRemove, CiTrash } from 'react-icons/ci';
+import { CiSquareRemove, CiSquarePlus, CiSaveUp2 } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -21,63 +21,52 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	onDelete
 }) => {
 	const [fileContent, setFileContent] = useState(file.description);
-	const [newFileName, setNewFileName] = useState(file.title.slice(0, 12)); // Initial value for the input
 
 	const handleSave = () => {
-		// Extract the existing extension
-		const existingExtension = file.title.split('.').pop() || '';
-
-		// Create the updated file title with the existing extension
-		const updatedFile: FileData = {
-			...file,
-			title: `${newFileName}.${existingExtension}`,
-			description: fileContent
-		};
-
-		onSave(updatedFile);
+		onSave({ ...file, description: fileContent });
 		onClose();
 	};
 
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className=" bg-neutral-900 p-8 rounded-sm border border-neutral-800 w-2/5 text-stone-200">
+			<div className="bg-neutral-900 p-8 rounded-sm border border-neutral-800 w-2/5 text-stone-200">
 				<h2 className="text-3xl font-bold mb-4">File: {file.title}</h2>
 				<div className="mb-4">
-					<h2 className="text-xl">File Content:</h2>
-					<textarea
-						value={fileContent}
-						onChange={(e) => setFileContent(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
-					/>
-				</div>
-				<div className="mb-4">
-					<h2 className="text-xl">File Name:</h2>
-					<input
-						type="text"
-						value={newFileName}
-						onChange={(e) => setNewFileName(e.target.value.slice(0, 12))}
-						maxLength={12}
-						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
-					/>
+					{file.title.toLowerCase().endsWith('.png') ? (
+						<img
+							src={`data:image/png;base64,${file.description}`}
+							alt="Uploaded"
+							className="w-full rounded-sm"
+						/>
+					) : (
+						<>
+							<h2 className="text-xl">File Content:</h2>
+							<textarea
+								value={fileContent}
+								onChange={(e) => setFileContent(e.target.value)}
+								className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200 mt-2 min-h-96"
+							/>
+						</>
+					)}
 				</div>
 				<div className="flex gap-3">
 					<button
 						onClick={handleSave}
-						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						className="px-4 py-1 border border-emerald-700 bg-emerald-950 rounded-sm text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
-						<CiFloppyDisk />
+						<CiSquarePlus />
 						Save
 					</button>
 					<button
 						onClick={onDelete}
-						className=" px-4 py-1 border border-red-600 bg-red-700  rounded-sm text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						className="px-4 py-1 border border-red-600 bg-red-900 rounded-sm text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
-						<CiTrash />
+						<CiSquareRemove />
 						Delete
 					</button>
 					<button
 						onClick={onClose}
-						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						className="px-4 py-1 border border-neutral-700 bg-neutral-950 rounded-sm text-xs md:text-base hover:bg-neutral-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
 						<CiSquareRemove />
 						Close
