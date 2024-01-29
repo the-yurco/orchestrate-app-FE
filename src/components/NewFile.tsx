@@ -1,54 +1,85 @@
-import React, { MouseEventHandler, useRef } from 'react';
-import Input from './Input';
-import { FaFileUpload } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
 
-type Props = {
-	onAddFile: MouseEventHandler<HTMLButtonElement>;
+type FileData = {
+	id: number;
+	title: string;
+	description: string;
 };
 
-const NewFile = ({ onAddFile }: Props) => {
-	const title = useRef<HTMLInputElement>(null);
-	const description = useRef<HTMLTextAreaElement>(null);
-	const dueDate = useRef<HTMLInputElement>(null);
-	const versionControl = useRef<HTMLInputElement>(null);
-	const author = useRef<HTMLInputElement>(null);
+type NewFileProps = {
+	onClose: () => void;
+	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
+};
 
-	const handleSave = () => {};
+const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
+	const [fileFormat, setFileFormat] = useState('');
+	const [fileContent, setFileContent] = useState('');
+	const [fileName, setFileName] = useState('');
+
+	useEffect(() => {
+		const storedFiles = localStorage.getItem('files');
+		if (storedFiles) {
+			setFiles(JSON.parse(storedFiles));
+		} else {
+			setFiles([]);
+		}
+	}, [setFiles]);
+
+	const handleFileFormatChange = (format: string) => {
+		setFileFormat(format);
+	};
+
+	const handleSaveFile = () => {
+		const newFile = {
+			id: Date.now(),
+			title: fileName,
+			description: fileContent
+		};
+		setFiles((prevFiles) => [...prevFiles, newFile]);
+
+		onClose();
+	};
 
 	return (
-		<section className="w-[35rem] pt-16 pb-8 border border-neutral-700 bg-neutral-900 px-10 flex flex-col gap-10 text-stone-50 justify-between rounded-sm">
-			<div className="flex flex-col gap-4">
-				<Input isInput={true} label={'Title'} ref={title} />
-				<Input isInput={false} label={'Description'} ref={description} />
-				<Input isInput={true} label={'Due Date'} ref={dueDate} />
-				<Input isInput={true} label={'Version Control'} ref={versionControl} />
-				<Input isInput={true} label={'Author'} ref={author} />
-				<button className="px-4 py-2 border border-stone200 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300 flex gap-1 justify-center items-center">
-					<FaFileUpload />
-					Uploud...
+		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
+			<div className=" bg-neutral-900 p-8 rounded-sm border border-stone-200 w-2/5 text-stone-200">
+				<h2 className="text-3xl font-bold mb-4">File: {fileName}</h2>
+				<div className="mb-4">
+					<h2 className="text-xl">Select File Format:</h2>
+					<select
+						value={fileFormat}
+						onChange={(e) => handleFileFormatChange(e.target.value)}
+						className="border p-2 w-full rounded-sm text-neutral-950"
+					>
+						<option value="txt">Text (txt)</option>
+						<option value="md">Markdown (md)</option>
+					</select>
+				</div>
+				<div className="mb-4">
+					<h2 className="text-xl">Enter File Content:</h2>
+					<textarea
+						value={fileContent}
+						onChange={(e) => setFileContent(e.target.value)}
+						className="border p-2 w-full rounded-sm text-neutral-950"
+					/>
+				</div>
+				<div className="mb-4">
+					<h2 className=" text-xl">Enter File Name:</h2>
+					<input
+						type="text"
+						value={fileName}
+						onChange={(e) => setFileName(e.target.value)}
+						className="border p-2 w-full rounded-sm text-neutral-950"
+					/>
+				</div>
+				<button
+					onClick={handleSaveFile}
+					className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+				>
+					Save File
 				</button>
 			</div>
-			<menu className="flex gap-2">
-				<li>
-					{/* <ButtonComponent buttonName={'Cancel'} /> */}
-					<button
-						className="px-4 py-1 border border-neutral-700 bg-neutral-900 rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300"
-						// onChange={onAddFile}
-					>
-						Cancel
-					</button>
-				</li>
-				<li>
-					{/* <ButtonComponent buttonName={'Save'} /> */}
-					<button
-						className="px-4 py-1 border border-neutral-700 bg-neutral-800 rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300"
-						onClick={handleSave}
-					>
-						Save
-					</button>
-				</li>
-			</menu>
-		</section>
+		</div>
 	);
 };
 
