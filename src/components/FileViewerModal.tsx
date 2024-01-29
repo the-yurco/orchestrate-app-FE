@@ -35,14 +35,14 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className=" bg-neutral-900 p-8 rounded-sm border border-stone-200 w-2/5 text-stone-200">
+			<div className=" bg-neutral-900 p-8 rounded-sm border border-neutral-800 w-2/5 text-stone-200">
 				<h2 className="text-3xl font-bold mb-4">File: {file.title}</h2>
 				<div className="mb-4">
 					<h2 className="text-xl">File Content:</h2>
 					<textarea
 						value={fileContent}
 						onChange={(e) => setFileContent(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					/>
 				</div>
 				<div className="mb-4">
@@ -51,7 +51,7 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 						type="text"
 						value={newFileName}
 						onChange={(e) => setNewFileName(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					/>
 				</div>
 				<div className="flex gap-3">

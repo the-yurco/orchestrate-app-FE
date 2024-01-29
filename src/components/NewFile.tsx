@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaFileUpload } from 'react-icons/fa';
 
 type FileData = {
 	id: number;
@@ -47,7 +48,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className=" bg-neutral-900 p-8 rounded-sm border border-stone-200 w-2/5 text-stone-200">
+			<div className=" bg-neutral-900 p-8 rounded-sm border border-neutral-800 w-2/5 text-stone-200">
 				<h2 className="text-3xl font-bold mb-4">
 					File: {fileName}.{fileFormat}
 				</h2>
@@ -56,7 +57,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 					<select
 						value={fileFormat}
 						onChange={(e) => handleFileFormatChange(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					>
 						<option value="txt">Text (txt)</option>
 						<option value="md">Markdown (md)</option>
@@ -67,7 +68,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 					<textarea
 						value={fileContent}
 						onChange={(e) => setFileContent(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					/>
 				</div>
 				<div className="mb-4">
@@ -77,7 +78,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 						value={fileName}
 						onChange={(e) => setFileName(e.target.value)}
 						maxLength={MAX_NAME_LENGTH}
-						className="border p-2 w-full rounded-sm text-neutral-950"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					/>
 				</div>
 				<div className="flex gap-3">
@@ -92,6 +93,10 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
 					>
 						Close
+					</button>
+					<button className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center gap-1 justify-center">
+						<FaFileUpload />
+						Uploud
 					</button>
 				</div>
 			</div>
