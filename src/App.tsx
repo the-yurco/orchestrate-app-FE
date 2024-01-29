@@ -4,11 +4,19 @@ import SideBar from './components/SideBar';
 import NewFile from './components/NewFile';
 import NoFilePage from './components/NoFilePage';
 import './index.css';
-import { MouseEventHandler } from 'react';
 
 type FileUploadState = {
 	selectedFileId: null | undefined;
 	files: never[];
+};
+
+type FileData = {
+	id: number;
+	title: string;
+	description: string;
+	dueDate: number;
+	versionControl: number;
+	author: string;
 };
 
 const App = () => {
@@ -20,16 +28,38 @@ const App = () => {
 	const handleFileUploudState = () => {
 		setFileUploudState((prevState) => {
 			return {
-				...prevState, // spread the previous state to keep 'files' property
+				...prevState,
 				selectedFileId: null
 			};
 		});
 	};
 
+	// const handleAddFile = (fileData: FileData) => {
+	// 	setFileUploudState((prevState) => {
+	// 		const newFile = {
+	// 			...fileData,
+	// 			id: Math.random()
+	// 		};
+
+	// 		return {
+	// 			...prevState,
+	// 			files: [...prevState.files, newFile]
+	// 		};
+	// 	});
+	// };
+
 	let contentToShow;
 
 	if (fileUploudState.selectedFileId === null) {
-		contentToShow = <NewFile onAddFile={handleFileUploudState} />;
+		contentToShow = (
+			<NewFile
+				onAddFile={function (
+					event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+				): void {
+					throw new Error('Function not implemented.');
+				}}
+			/>
+		);
 	} else if (fileUploudState.selectedFileId === undefined) {
 		contentToShow = <NoFilePage />;
 	}

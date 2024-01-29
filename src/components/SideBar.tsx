@@ -10,7 +10,7 @@ const SideBar = ({ onAddFile }: Props) => {
 			<div className="flex gap-3 items-center justify-start">
 				<img src="/folder_main.png" alt="" height={20} width={25} />
 				<h2 className="title_font font-bold uppercase md:text-xl text-stone-200">
-					F. Sidebar
+					Orchestrate
 				</h2>
 			</div>
 			<div className="mt-8">
