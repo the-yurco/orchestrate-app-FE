@@ -89,7 +89,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 					<textarea
 						value={fileContent}
 						onChange={(e) => setFileContent(e.target.value)}
-						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200 mt-2"
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200 mt-2 min-h-96"
 					/>
 				</div>
 				<div className="mb-4">
