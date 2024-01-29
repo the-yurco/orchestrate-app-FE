@@ -80,12 +80,20 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 						className="border p-2 w-full rounded-sm text-neutral-950"
 					/>
 				</div>
-				<button
-					onClick={handleSaveFile}
-					className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
-				>
-					Save File
-				</button>
+				<div className="flex gap-3">
+					<button
+						onClick={handleSaveFile}
+						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+					>
+						Save File
+					</button>
+					<button
+						onClick={onClose}
+						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+					>
+						Close
+					</button>
+				</div>
 			</div>
 		</div>
 	);
