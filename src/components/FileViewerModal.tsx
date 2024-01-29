@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CiFloppyDisk, CiSquareRemove, CiTrash } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -20,12 +21,16 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	onDelete
 }) => {
 	const [fileContent, setFileContent] = useState(file.description);
-	const [newFileName, setNewFileName] = useState(file.title);
+	const [newFileName, setNewFileName] = useState(file.title.slice(0, 12)); // Initial value for the input
 
 	const handleSave = () => {
+		// Extract the existing extension
+		const existingExtension = file.title.split('.').pop() || '';
+
+		// Create the updated file title with the existing extension
 		const updatedFile: FileData = {
 			...file,
-			title: newFileName,
+			title: `${newFileName}.${existingExtension}`,
 			description: fileContent
 		};
 
@@ -50,27 +55,31 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 					<input
 						type="text"
 						value={newFileName}
-						onChange={(e) => setNewFileName(e.target.value)}
+						onChange={(e) => setNewFileName(e.target.value.slice(0, 12))}
+						maxLength={12}
 						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
 					/>
 				</div>
 				<div className="flex gap-3">
 					<button
 						onClick={handleSave}
-						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
+						<CiFloppyDisk />
 						Save
 					</button>
 					<button
 						onClick={onDelete}
-						className=" px-4 py-1 border border-red-600 bg-red-700  rounded-sm text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase "
+						className=" px-4 py-1 border border-red-600 bg-red-700  rounded-sm text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
+						<CiTrash />
 						Delete
 					</button>
 					<button
 						onClick={onClose}
-						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
+						<CiSquareRemove />
 						Close
 					</button>
 				</div>

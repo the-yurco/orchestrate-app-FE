@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FaFileUpload } from 'react-icons/fa';
+import { CiSquareRemove } from 'react-icons/ci';
+import { CiSquarePlus } from 'react-icons/ci';
+import { CiSaveUp2 } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -33,6 +35,11 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 
 	const handleSaveFile = () => {
 		const truncatedFileName = fileName.slice(0, MAX_NAME_LENGTH);
+
+		if (!fileContent.trim() || !truncatedFileName.trim()) {
+			alert('Please enter both file content and a file name.');
+			return;
+		}
 
 		const fileTitle = `${truncatedFileName}.${fileFormat}`;
 
@@ -84,19 +91,21 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 				<div className="flex gap-3">
 					<button
 						onClick={handleSaveFile}
-						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+						className="px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
-						Save File
+						<CiSquarePlus />
+						Add
+					</button>
+					<button className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center gap-2 justify-center">
+						<CiSaveUp2 />
+						Uploud
 					</button>
 					<button
 						onClick={onClose}
-						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase "
+						className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
+						<CiSquareRemove />
 						Close
-					</button>
-					<button className=" px-4 py-1 border border-neutral-700 bg-neutral-800  rounded-sm text-xs md:text-base hover:bg-neutral-700 transition-all duration-300 w-full uppercase flex items-center gap-1 justify-center">
-						<FaFileUpload />
-						Uploud
 					</button>
 				</div>
 			</div>
