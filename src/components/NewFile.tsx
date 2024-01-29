@@ -12,9 +12,10 @@ type NewFileProps = {
 };
 
 const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
-	const [fileFormat, setFileFormat] = useState('');
+	const [fileFormat, setFileFormat] = useState('txt');
 	const [fileContent, setFileContent] = useState('');
 	const [fileName, setFileName] = useState('');
+	const MAX_NAME_LENGTH = 12;
 
 	useEffect(() => {
 		const storedFiles = localStorage.getItem('files');
@@ -30,9 +31,13 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	};
 
 	const handleSaveFile = () => {
-		const newFile = {
+		const truncatedFileName = fileName.slice(0, MAX_NAME_LENGTH);
+
+		const fileTitle = `${truncatedFileName}.${fileFormat}`;
+
+		const newFile: FileData = {
 			id: Date.now(),
-			title: fileName,
+			title: fileTitle,
 			description: fileContent
 		};
 		setFiles((prevFiles) => [...prevFiles, newFile]);
@@ -43,7 +48,9 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
 			<div className=" bg-neutral-900 p-8 rounded-sm border border-stone-200 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">File: {fileName}</h2>
+				<h2 className="text-3xl font-bold mb-4">
+					File: {fileName}.{fileFormat}
+				</h2>
 				<div className="mb-4">
 					<h2 className="text-xl">Select File Format:</h2>
 					<select
@@ -69,6 +76,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 						type="text"
 						value={fileName}
 						onChange={(e) => setFileName(e.target.value)}
+						maxLength={MAX_NAME_LENGTH}
 						className="border p-2 w-full rounded-sm text-neutral-950"
 					/>
 				</div>

@@ -33,7 +33,7 @@ const App: React.FC = () => {
 	return (
 		<section className=" bg-neutral-800">
 			<section className="h-screen py-8 flex gap-10">
-				<SideBar files={files} onAddFile={handleAddFile} />
+				<SideBar onAddFile={handleAddFile} files={files} setFiles={setFiles} />
 			</section>
 
 			{showNewFileModal && (

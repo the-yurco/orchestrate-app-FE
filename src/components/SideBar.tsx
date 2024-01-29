@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CiFileOn } from 'react-icons/ci';
+import FileViewerModal from './FileViewerModal';
 
 type FileData = {
 	id: number;
@@ -10,9 +11,33 @@ type FileData = {
 type SideBarProps = {
 	onAddFile: () => void;
 	files: FileData[];
+	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
 };
 
-const SideBar: React.FC<SideBarProps> = ({ onAddFile, files }) => {
+const SideBar: React.FC<SideBarProps> = ({ onAddFile, files, setFiles }) => {
+	const [selectedFile, setSelectedFile] = useState<FileData | null>(null);
+
+	const openFileViewer = (file: FileData) => {
+		setSelectedFile(file);
+	};
+
+	const closeFileViewer = () => {
+		setSelectedFile(null);
+	};
+
+	const updateFile = (updatedFile: FileData) => {
+		const updatedFiles = files.map((file) =>
+			file.id === updatedFile.id ? updatedFile : file
+		);
+		setFiles(updatedFiles);
+	};
+
+	const deleteFile = () => {
+		const updatedFiles = files.filter((file) => file.id !== selectedFile?.id);
+		setFiles(updatedFiles);
+		closeFileViewer();
+	};
+
 	return (
 		<aside className=" w-1/3 px-8 py-16 bg-neutral-950 text-stone-50 md:w-72 border-r border-t border-b border-neutral-700 rounded-sm flex justify-between flex-col">
 			<div className="flex gap-3 items-center justify-start">
@@ -21,11 +46,12 @@ const SideBar: React.FC<SideBarProps> = ({ onAddFile, files }) => {
 					Orchestrate
 				</h2>
 			</div>
-			<ul className="border h-2/3">
+			<ul className="border h-2/3 border-stone-200 rounded-sm p-2 flex flex-col gap-1">
 				{files.map((file) => (
 					<li
 						key={file.id}
-						className=" bg-neutral-600 px-5 m-1 flex items-center gap-3 py-1"
+						onClick={() => openFileViewer(file)}
+						className=" bg-transparent border border-neutral-800 px-5  flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-neutral-800 transition-all duration-300 rounded-sm"
 					>
 						<CiFileOn />
 						{file.title}
@@ -39,10 +65,22 @@ const SideBar: React.FC<SideBarProps> = ({ onAddFile, files }) => {
 				>
 					+ Add File
 				</button>
-				<button className="px-4 py-1 border border-neutral-700 bg-neutral-900  rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300 w-full uppercase">
+				<button
+					onClick={() => console.log('Add Folder')} // Placeholder action for adding folders
+					className="px-4 py-1 border border-neutral-700 bg-neutral-900  rounded-sm text-xs md:text-base hover:bg-neutral-800 transition-all duration-300 w-full uppercase"
+				>
 					+ Add Folder
 				</button>
 			</div>
+
+			{selectedFile && (
+				<FileViewerModal
+					file={selectedFile}
+					onClose={closeFileViewer}
+					onSave={updateFile}
+					onDelete={deleteFile}
+				/>
+			)}
 		</aside>
 	);
 };
