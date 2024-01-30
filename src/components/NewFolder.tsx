@@ -74,12 +74,17 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 				</div>
 				<div className="mb-4">
 					<h2 className="text-xl">Select Background Color:</h2>
-					<input
-						type="color"
+					<select
 						value={backgroundColor}
 						onChange={(e) => setBackgroundColor(e.target.value)}
 						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
-					/>
+					>
+						{accessibleColors.map((color) => (
+							<option key={color} value={color}>
+								{color}
+							</option>
+						))}
+					</select>
 				</div>
 				<div className="flex gap-3">
 					<button

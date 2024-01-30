@@ -64,31 +64,27 @@ const SideBar: React.FC<SideBarProps> = ({
 
 	return (
 		<aside className=" w-1/3 px-4 py-8 bg-zinc-950 text-stone-50 md:w-72 border-r border-t border-b border-zinc-700 rounded-r-md flex justify-start flex-col my-8">
-			<div className="flex gap-3 items-center justify-center">
-				<img src="/folder_main.png" alt="" height={20} width={25} />
-				<h2 className="title_font font-bold uppercase md:text-2xl text-stone-200">
-					Orchestrate
-				</h2>
-			</div>
-			<div className="h-full flex flex-col gap-1">
-				<div className="mt-8 flex gap-1">
+			<div className="h-full flex flex-col gap-3">
+				<div className=" flex gap-1 justify-between">
+					<div className="flex gap-1">
+						<button
+							onClick={onAddFile}
+							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300  uppercase flex items-center justify-center gap-2"
+						>
+							<CiFileOn className=" text-stone-200" />
+						</button>
+						<button
+							onClick={handleAddFolder}
+							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900  transition-all duration-300  uppercase flex items-center justify-center gap-2"
+						>
+							<CiFolderOn />
+						</button>
+					</div>
 					<button
 						onClick={onUploadFile}
-						className="px-2 py-2 border border-amber-700 bg-amber-950 rounded-md text-xs md:text-base hover:bg-amber-900 transition-all duration-300  uppercase flex items-center justify-center gap-2 "
+						className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300  uppercase flex items-center justify-center gap-2 "
 					>
 						<CiInboxOut />
-					</button>
-					<button
-						onClick={onAddFile}
-						className="px-2 py-2 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900  transition-all duration-300  uppercase flex items-center justify-center gap-2"
-					>
-						<CiFileOn />
-					</button>
-					<button
-						onClick={handleAddFolder}
-						className="px-2 py-2 border border-zinc-700  rounded-md text-xs md:text-base hover:bg-zinc-900  transition-all duration-300  uppercase flex items-center justify-center gap-2"
-					>
-						<CiFolderOn />
 					</button>
 				</div>
 				<ul className="border h-full border-zinc-700 rounded-md py-2 flex flex-col ">

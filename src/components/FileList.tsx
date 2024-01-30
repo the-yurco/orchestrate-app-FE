@@ -37,19 +37,16 @@ const FileList: React.FC<FileListProps> = ({
 	const mainColors = ['#FF5733', '#FFC300', '#33FF57', '#33A2FF', '#B633FF'];
 
 	function lighterColor(color: string, factor: number) {
-		// Convert hex to RGB
 		const hex = color.replace(/^#/, '');
 		const bigint = parseInt(hex, 16);
 		const r = (bigint >> 16) & 255;
 		const g = (bigint >> 8) & 255;
 		const b = bigint & 255;
 
-		// Calculate the lightened color
 		const newR = Math.min(255, r + r * factor);
 		const newG = Math.min(255, g + g * factor);
 		const newB = Math.min(255, b + b * factor);
 
-		// Convert RGB back to hex
 		const newColor = `#${((1 << 24) + (newR << 16) + (newG << 8) + newB)
 			.toString(16)
 			.slice(1)}`;
@@ -105,7 +102,13 @@ const FileList: React.FC<FileListProps> = ({
 
 	return (
 		<section className="flex-grow bg-zinc-950 text-stone-50 p-8">
-			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-11 gap-4">
+			<div className="flex gap-3 items-center justify-start mb-8">
+				<img src="/folder_main.png" alt="" height={70} width={75} />
+				<h2 className="title_font font-bold uppercase md:text-5xl text-stone-200">
+					Orchestrate
+				</h2>
+			</div>
+			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-11 gap-4 rounded-md">
 				{allItems.map((item) => (
 					<li
 						key={item.id}
