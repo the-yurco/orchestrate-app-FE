@@ -101,35 +101,33 @@ const FileList: React.FC<FileListProps> = ({
 		closeFolderViewer();
 	};
 
+	const allItems = [...files, ...folders].sort((a, b) => b.id - a.id);
+
 	return (
 		<section className="flex-grow bg-zinc-950 text-stone-50 p-8">
 			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-11 gap-4">
-				{files
-					.sort((a, b) => b.id - a.id)
-					.map((file) => (
-						<li
-							key={file.id}
-							onClick={() => openFileViewer(file)}
-							className="bg-transparent border border-zinc-800 flex flex-col items-center gap-3 py-4 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 rounded-md"
-						>
-							<CiFileOn className="text-6xl" />{' '}
-							<span className="text-base">{file.title}</span>
-						</li>
-					))}
-			</ul>
-			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-11 gap-4">
-				{folders
-					.sort((a, b) => b.id - a.id)
-					.map((folder) => (
-						<li
-							key={folder.id}
-							onClick={() => openFolderViewer(folder)}
-							className="bg-transparent border border-zinc-800 flex flex-col items-center gap-3 py-4 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 rounded-md"
-						>
-							<CiFileOn className="text-6xl" />{' '}
-							<span className="text-base">{folder.name}</span>
-						</li>
-					))}
+				{allItems.map((item) => (
+					<li
+						key={item.id}
+						onClick={() => {
+							if ('title' in item) {
+								openFileViewer(item);
+							} else {
+								openFolderViewer(item);
+							}
+						}}
+						className="bg-transparent border border-zinc-800 flex flex-col items-center gap-3 py-4 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 rounded-md"
+					>
+						{'title' in item ? (
+							<CiFileOn className="text-6xl" />
+						) : (
+							<CiFolderOn className="text-6xl" />
+						)}
+						<span className="text-base">
+							{'title' in item ? item.title : item.name}
+						</span>
+					</li>
+				))}
 			</ul>
 
 			{selectedFile && (

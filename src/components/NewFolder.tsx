@@ -47,7 +47,14 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 			name: folderTitle,
 			backgroundColor: backgroundColor
 		};
-		setFolders((prevFolders) => [...prevFolders, newFolder]);
+
+		setFolders((prevFolders) => {
+			localStorage.setItem(
+				'folders',
+				JSON.stringify([...prevFolders, newFolder])
+			);
+			return [...prevFolders, newFolder];
+		});
 
 		onClose();
 	};
