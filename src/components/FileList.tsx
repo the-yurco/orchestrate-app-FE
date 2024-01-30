@@ -108,7 +108,7 @@ const FileList: React.FC<FileListProps> = ({
 					Orchestrate
 				</h2>
 			</div>
-			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-11 gap-4 rounded-md">
+			<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 rounded-md">
 				{allItems.map((item) => (
 					<li
 						key={item.id}
@@ -119,12 +119,12 @@ const FileList: React.FC<FileListProps> = ({
 								openFolderViewer(item);
 							}
 						}}
-						className="bg-transparent border border-zinc-800 flex flex-col items-center gap-3 py-4 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 rounded-md"
+						className="bg-transparent  flex flex-col items-center gap-3 py-4 hover:cursor-pointer  hover:bg-opacity-40 transition-all duration-300 rounded-md"
 					>
 						{'title' in item ? (
-							<CiFileOn className="text-6xl" />
+							<CiFileOn className="text-5xl bg-zinc-200 rounded-md text-black" />
 						) : (
-							<CiFolderOn className="text-6xl" />
+							<CiFolderOn className="text-5xl bg-zinc-700 rounded-md text-stone-200" />
 						)}
 						<span className="text-base">
 							{'title' in item ? item.title : item.name}

@@ -99,8 +99,11 @@ const SideBar: React.FC<SideBarProps> = ({
 								onClick={() => openFileViewer(file)}
 								className="bg-transparent border-b border-zinc-800 flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 px-3"
 							>
-								{file.description === 'Folder' ? <CiFolderOn /> : <CiFileOn />}{' '}
-								{/* Updated icon rendering */}
+								{file.description === 'Folder' ? (
+									<CiFolderOn />
+								) : (
+									<CiFileOn className="" />
+								)}{' '}
 								{file.title}
 							</li>
 						))}

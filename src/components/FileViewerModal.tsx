@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { CiSquareRemove, CiSquarePlus, CiSaveUp2 } from 'react-icons/ci';
+import {
+	CiSquareRemove,
+	CiSquarePlus,
+	CiSaveUp2,
+	CiTrash,
+	CiCirclePlus,
+	CiFloppyDisk
+} from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -54,14 +61,14 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 						onClick={handleSave}
 						className="px-4 py-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
-						<CiSquarePlus />
+						<CiFloppyDisk />
 						Save
 					</button>
 					<button
 						onClick={onDelete}
 						className="px-4 py-1 border border-red-600 bg-red-900 rounded-md text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 					>
-						<CiSquareRemove />
+						<CiTrash />
 						Delete
 					</button>
 					<button
