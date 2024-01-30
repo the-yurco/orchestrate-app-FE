@@ -1,9 +1,11 @@
+// App.tsx
 import React, { useEffect, useState } from 'react';
 import SideBar from './components/SideBar';
 import NewFile from './components/NewFile';
 import UploadFile from './components/UploadFile';
 import FileViewerModal from './components/FileViewerModal';
 import NoFilePage from './components/NoFilePage';
+import FileList from './components/FileList'; // Import the new component
 
 type FileData = {
 	id: number;
@@ -47,15 +49,15 @@ const App: React.FC = () => {
 	}, [files]);
 
 	return (
-		<section className="bg-neutral-800">
-			<section className="h-screen py-8 flex gap-10">
-				<SideBar
-					onAddFile={handleAddFile}
-					onUploadFile={handleUploadFile}
-					files={files}
-					setFiles={setFiles}
-				/>
-			</section>
+		<section className="bg-zinc-950 flex h-screen">
+			<SideBar
+				onAddFile={handleAddFile}
+				onUploadFile={handleUploadFile}
+				files={files}
+				setFiles={setFiles}
+			/>
+
+			<FileList files={files} setFiles={setFiles} />
 
 			{showNewFileModal && (
 				<NewFile onClose={handleCloseModal} setFiles={setFiles} />
