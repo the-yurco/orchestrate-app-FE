@@ -1,22 +1,33 @@
-// App.tsx
 import React, { useEffect, useState } from 'react';
-import SideBar from './components/SideBar';
 import NewFile from './components/NewFile';
 import UploadFile from './components/UploadFile';
 import FileViewerModal from './components/FileViewerModal';
 import NoFilePage from './components/NoFilePage';
 import FileList from './components/FileList'; // Import the new component
+import SideBar from './components/SideBar';
 
 type FileData = {
 	id: number;
 	title: string;
 	description: string;
+	files?: FileData[]; // Add this line for folder files
+};
+
+type FolderData = {
+	id: number;
+	name: string;
+	backgroundColor: string;
 };
 
 const App: React.FC = () => {
 	const [files, setFiles] = useState<FileData[]>(() => {
 		const storedFiles = localStorage.getItem('files');
 		return storedFiles ? JSON.parse(storedFiles) : [];
+	});
+
+	const [folders, setFolders] = useState<FolderData[]>(() => {
+		const storedFolders = localStorage.getItem('folders');
+		return storedFolders ? JSON.parse(storedFolders) : [];
 	});
 
 	const [showNewFileModal, setShowNewFileModal] = useState(false);
@@ -36,10 +47,6 @@ const App: React.FC = () => {
 		setShowUploadFileModal(false);
 	};
 
-	const openFileViewer = (file: FileData) => {
-		setSelectedFile(file);
-	};
-
 	const closeFileViewer = () => {
 		setSelectedFile(null);
 	};
@@ -55,9 +62,16 @@ const App: React.FC = () => {
 				onUploadFile={handleUploadFile}
 				files={files}
 				setFiles={setFiles}
+				folders={folders}
+				setFolders={setFolders}
 			/>
 
-			<FileList files={files} setFiles={setFiles} />
+			<FileList
+				files={files}
+				setFiles={setFiles}
+				folders={folders}
+				setFolders={setFolders}
+			/>
 
 			{showNewFileModal && (
 				<NewFile onClose={handleCloseModal} setFiles={setFiles} />

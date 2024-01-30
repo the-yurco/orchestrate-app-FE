@@ -31,25 +31,8 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 		setFileFormat(format);
 	};
 
-	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedFile = e.target.files && e.target.files[0];
-
-		if (selectedFile) {
-			const reader = new FileReader();
-
-			reader.onload = (event) => {
-				const content = event.target?.result as string;
-				setFileContent(content);
-				setFileName(selectedFile.name);
-			};
-
-			reader.readAsText(selectedFile);
-		}
-	};
-
 	const handleSaveFile = () => {
 		const truncatedFileName = fileName.slice(0, MAX_NAME_LENGTH);
-
 		if (!fileContent.trim() || !truncatedFileName.trim()) {
 			alert('Please enter both file content and a file name.');
 			return;

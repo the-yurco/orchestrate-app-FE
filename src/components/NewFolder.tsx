@@ -1,0 +1,98 @@
+import React, { useEffect, useState } from 'react';
+import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
+
+type FolderData = {
+	id: number;
+	name: string;
+	backgroundColor: string;
+};
+
+type NewFolderProps = {
+	onClose: () => void;
+	setFolders: React.Dispatch<React.SetStateAction<FolderData[]>>;
+};
+
+const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
+	const [folderName, setFolderName] = useState('');
+	const [backgroundColor, setBackgroundColor] = useState('#ffffff');
+	const MAX_NAME_LENGTH = 12;
+	const accessibleColors = [
+		'#FF5733',
+		'#FFC300',
+		'#33FF57',
+		'#33A2FF',
+		'#B633FF'
+	];
+
+	useEffect(() => {
+		const storedFolders = localStorage.getItem('folders');
+		if (storedFolders) {
+			setFolders(JSON.parse(storedFolders));
+		} else {
+			setFolders([]);
+		}
+	}, [setFolders]);
+
+	const handleSaveFolder = () => {
+		const truncatedFolderName = folderName.slice(0, MAX_NAME_LENGTH);
+		if (!folderName.trim()) {
+			alert('Please enter a folder name.');
+			return;
+		}
+
+		const folderTitle = `${truncatedFolderName}`;
+
+		const newFolder: FolderData = {
+			id: Date.now(),
+			name: folderTitle,
+			backgroundColor: backgroundColor
+		};
+		setFolders((prevFolders) => [...prevFolders, newFolder]);
+
+		onClose();
+	};
+
+	return (
+		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">
+			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
+				<h2 className="text-3xl font-bold mb-4">Folder: {folderName}</h2>
+				<div className="mb-4">
+					<h2 className="text-xl">Enter Folder Name:</h2>
+					<input
+						type="text"
+						value={folderName}
+						onChange={(e) => setFolderName(e.target.value)}
+						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
+					/>
+				</div>
+				<div className="mb-4">
+					<h2 className="text-xl">Select Background Color:</h2>
+					<input
+						type="color"
+						value={backgroundColor}
+						onChange={(e) => setBackgroundColor(e.target.value)}
+						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
+					/>
+				</div>
+				<div className="flex gap-3">
+					<button
+						onClick={handleSaveFolder}
+						className="px-4 py-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+					>
+						<CiSquarePlus />
+						Add
+					</button>
+					<button
+						onClick={onClose}
+						className="px-4 py-1 border border-zinc-700 bg-zinc-800 rounded-md text-xs md:text-base hover:bg-zinc-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+					>
+						<CiSquareRemove />
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default NewFolder;
