@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 
+type FileData = {
+	id: number;
+	title: string;
+	description: string;
+	files?: FileData[];
+};
+
 type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
+	files?: FileData[];
 };
 
 type NewFolderProps = {

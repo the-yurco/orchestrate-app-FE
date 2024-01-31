@@ -43,38 +43,35 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 							{folder.name}
 						</h2>
 					</div>
-					<div className="flex justify-center items-center">
-						<button>
-							<CiCircleMore className="text-3xl" />
+					<div className="flex justify-center items-center gap-5">
+						<div className="flex gap-1">
+							<button
+								onClick={handleSave}
+								className="p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+							>
+								<CiFloppyDisk className="text-2xl" />
+							</button>
+							<button
+								onClick={onDelete}
+								className="p-1 border border-red-600 bg-red-900 rounded-md text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+							>
+								<CiTrash className="text-2xl" />
+							</button>
+							<button className="p-1 border border-amber-700 bg-amber-950 rounded-md text-xs md:text-base hover:bg-amber-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2">
+								<CiCircleMore className="text-2xl" />
+							</button>
+						</div>
+						<button
+							onClick={onClose}
+							className=" border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						>
+							<CiSquareRemove className="text-4xl" />
 						</button>
 					</div>
 				</div>
 				<div className="mb-4">
 					<h2 className="text-xl">Folder Files:</h2>
 					<ul></ul>
-				</div>
-				<div className="flex gap-3">
-					<button
-						onClick={handleSave}
-						className="px-4 py-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
-					>
-						<CiFloppyDisk />
-						Save
-					</button>
-					<button
-						onClick={onDelete}
-						className="px-4 py-1 border border-red-600 bg-red-900 rounded-md text-xs md:text-base hover:bg-red-800 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
-					>
-						<CiTrash />
-						Delete
-					</button>
-					<button
-						onClick={onClose}
-						className="px-4 py-1 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
-					>
-						<CiSquareRemove />
-						Close
-					</button>
 				</div>
 			</div>
 		</div>

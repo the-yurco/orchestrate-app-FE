@@ -13,6 +13,7 @@ type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
+	files?: FileData[];
 };
 
 type SideBarProps = {
@@ -89,7 +90,7 @@ const SideBar: React.FC<SideBarProps> = ({
 				</div>
 				<ul className="border h-full border-zinc-700 rounded-md py-2 flex flex-col ">
 					<p className=" text-zinc-500 px-3 border-b border-zinc-700 pb-1">
-						Recent
+						Recent Created
 					</p>
 					{files
 						.sort((a, b) => b.id - a.id)

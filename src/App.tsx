@@ -17,6 +17,7 @@ type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
+	files?: FileData[];
 };
 
 const App: React.FC = () => {
