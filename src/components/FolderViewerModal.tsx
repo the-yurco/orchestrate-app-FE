@@ -3,7 +3,8 @@ import {
 	CiSquareRemove,
 	CiCirclePlus,
 	CiTrash,
-	CiFloppyDisk
+	CiFloppyDisk,
+	CiCircleMore
 } from 'react-icons/ci';
 
 type FolderData = {
@@ -35,13 +36,22 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
 			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">Folder: {folder.name}</h2>
+				<div className="flex justify-between items-center ">
+					<div className="flex justify-center items-end">
+						<h2 className="text-3xl font-bold flex items-center gap-3 ">
+							<img src="/folder-icon2.png" alt="" width={50} height={30} />
+							{folder.name}
+						</h2>
+					</div>
+					<div className="flex justify-center items-center">
+						<button>
+							<CiCircleMore className="text-3xl" />
+						</button>
+					</div>
+				</div>
 				<div className="mb-4">
-					<h2 className="text-xl">Folder Color:</h2>
-					<div
-						className="w-8 h-8 rounded-full mb-2"
-						style={{ backgroundColor: folder.backgroundColor }}
-					></div>
+					<h2 className="text-xl">Folder Files:</h2>
+					<ul></ul>
 				</div>
 				<div className="flex gap-3">
 					<button

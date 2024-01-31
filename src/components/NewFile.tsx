@@ -21,7 +21,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	const [fileFormat, setFileFormat] = useState('txt');
 	const [fileContent, setFileContent] = useState('');
 	const [fileName, setFileName] = useState('');
-	const MAX_NAME_LENGTH = 12;
+	const MAX_NAME_LENGTH = 10;
 
 	useEffect(() => {
 		const storedFiles = localStorage.getItem('files');

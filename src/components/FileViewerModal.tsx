@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-	CiSquareRemove,
-	CiSquarePlus,
-	CiSaveUp2,
-	CiTrash,
-	CiCirclePlus,
-	CiFloppyDisk
-} from 'react-icons/ci';
+import { CiSquareRemove, CiTrash, CiFloppyDisk } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -27,34 +20,53 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	onSave,
 	onDelete
 }) => {
+	const [fileName, setFileName] = useState(file.title);
 	const [fileContent, setFileContent] = useState(file.description);
+	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
 
 	const handleSave = () => {
-		onSave({ ...file, description: fileContent });
+		const existingExtension = file.title.split('.').pop() || '';
+
+		const updatedFile: FileData = {
+			...file,
+			title: `${newFileName}.${existingExtension}`,
+			description: fileContent
+		};
+
+		onSave(updatedFile);
 		onClose();
 	};
 
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
 			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">File: {file.title}</h2>
+				<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+					<img src="/file-icon.png" alt="" width={50} height={30} />{' '}
+					<input
+						type="text"
+						value={fileName}
+						onChange={(e) => setFileName(e.target.value)}
+						className="border-none bg-transparent text-stone-200 font-bold text-3xl outline-none"
+					/>
+				</h2>
+
 				<div className="mb-4">
-					{file.title.toLowerCase().endsWith('.png') ? (
-						<img
-							src={`data:image/png;base64,${file.description}`}
-							alt="Uploaded"
-							className="w-full rounded-md"
-						/>
-					) : (
-						<>
-							<h2 className="text-xl">File Content:</h2>
-							<textarea
-								value={fileContent}
-								onChange={(e) => setFileContent(e.target.value)}
-								className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200 mt-2 min-h-96"
-							/>
-						</>
-					)}
+					<h2 className="text-xl">File Content:</h2>
+					<textarea
+						value={fileContent}
+						onChange={(e) => setFileContent(e.target.value)}
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
+					/>
+				</div>
+				<div className="mb-4">
+					<h2 className="text-xl">File Name:</h2>
+					<input
+						type="text"
+						value={newFileName}
+						onChange={(e) => setNewFileName(e.target.value.slice(0, 10))}
+						maxLength={10}
+						className="border p-2 w-full rounded-sm text-neutral-950 bg-stone-200"
+					/>
 				</div>
 				<div className="flex gap-3">
 					<button
