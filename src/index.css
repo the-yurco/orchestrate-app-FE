@@ -31,3 +31,12 @@
 		transform: scale(1);
 	}
 }
+
+.new-item {
+	transform: scale(0);
+	transition: transform 0.3s ease-in-out;
+}
+
+.new-item.visible {
+	transform: scale(1);
+}

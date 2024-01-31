@@ -20,8 +20,8 @@ type SideBarProps = {
 	onUploadFile: () => void;
 	files: FileData[];
 	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
-	folders: FolderData[]; // Add this line
-	setFolders: React.Dispatch<React.SetStateAction<FolderData[]>>; // Add this line
+	folders: FolderData[];
+	setFolders: React.Dispatch<React.SetStateAction<FolderData[]>>;
 };
 
 const SideBar: React.FC<SideBarProps> = ({
@@ -97,7 +97,7 @@ const SideBar: React.FC<SideBarProps> = ({
 							<li
 								key={file.id}
 								onClick={() => openFileViewer(file)}
-								className="bg-transparent border-b border-zinc-800 flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-zinc-800 transition-all duration-300 px-3"
+								className="bg-transparent border-b border-zinc-800 flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-zinc-900 transition-all duration-300 px-3"
 							>
 								{file.description === 'Folder' ? (
 									<CiFolderOn />

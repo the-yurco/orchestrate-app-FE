@@ -3,14 +3,14 @@ import NewFile from './components/NewFile';
 import UploadFile from './components/UploadFile';
 import FileViewerModal from './components/FileViewerModal';
 import NoFilePage from './components/NoFilePage';
-import FileList from './components/FileList'; // Import the new component
+import FileList from './components/FileList';
 import SideBar from './components/SideBar';
 
 type FileData = {
 	id: number;
 	title: string;
 	description: string;
-	files?: FileData[]; // Add this line for folder files
+	files?: FileData[];
 };
 
 type FolderData = {

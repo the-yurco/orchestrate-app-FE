@@ -62,7 +62,10 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">
 			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">Folder: {folderName}</h2>
+				<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+					<img src="/folder-icon2.png" alt="" width={50} height={30} />{' '}
+					{folderName}
+				</h2>
 				<div className="mb-4">
 					<h2 className="text-xl">Enter Folder Name:</h2>
 					<input

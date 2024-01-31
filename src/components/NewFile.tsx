@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { CiSquareRemove, CiSquarePlus, CiSaveUp2 } from 'react-icons/ci';
+import {
+	CiSquareRemove,
+	CiSquarePlus,
+	CiSaveUp2,
+	CiFileOn
+} from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -53,8 +58,9 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
 			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">
-					File: {fileName}.{fileFormat}
+				<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+					<img src="/file-icon.png" alt="" width={50} height={30} />
+					{fileName}.{fileFormat}
 				</h2>
 				<div className="mb-4">
 					<h2 className="text-xl">Select File Format:</h2>

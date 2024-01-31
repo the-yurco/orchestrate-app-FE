@@ -1,8 +1,8 @@
-// FileList.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CiFileOn, CiFolderOn } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
 import FolderViewerModal from './FolderViewerModal';
+import Draggable from 'react-draggable';
 
 type FileData = {
 	id: number;
@@ -33,26 +33,6 @@ const FileList: React.FC<FileListProps> = ({
 	const [selectedFolder, setSelectedFolder] = React.useState<FolderData | null>(
 		null
 	);
-
-	const mainColors = ['#FF5733', '#FFC300', '#33FF57', '#33A2FF', '#B633FF'];
-
-	function lighterColor(color: string, factor: number) {
-		const hex = color.replace(/^#/, '');
-		const bigint = parseInt(hex, 16);
-		const r = (bigint >> 16) & 255;
-		const g = (bigint >> 8) & 255;
-		const b = bigint & 255;
-
-		const newR = Math.min(255, r + r * factor);
-		const newG = Math.min(255, g + g * factor);
-		const newB = Math.min(255, b + b * factor);
-
-		const newColor = `#${((1 << 24) + (newR << 16) + (newG << 8) + newB)
-			.toString(16)
-			.slice(1)}`;
-
-		return newColor;
-	}
 
 	const openFileViewer = (file: FileData) => {
 		setSelectedFile(file);
@@ -101,7 +81,7 @@ const FileList: React.FC<FileListProps> = ({
 	const allItems = [...files, ...folders].sort((a, b) => b.id - a.id);
 
 	return (
-		<section className="flex-grow bg-zinc-950 text-stone-50 p-8">
+		<section className="flex-grow bg-zinc-950 text-stone-50 pl-8 pt-8 pb-8">
 			<div className="flex gap-3 items-center justify-start mb-8">
 				<img src="/folder_main.png" alt="" height={70} width={75} />
 				<h2 className="title_font font-bold uppercase md:text-5xl text-stone-200">
@@ -119,12 +99,12 @@ const FileList: React.FC<FileListProps> = ({
 								openFolderViewer(item);
 							}
 						}}
-						className="bg-transparent  flex flex-col items-center gap-3 py-4 hover:cursor-pointer  hover:bg-opacity-40 transition-all duration-300 rounded-md"
+						className="bg-transparent  flex flex-col items-center gap-3 py-4 hover:cursor-pointer  hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
 					>
 						{'title' in item ? (
-							<CiFileOn className="text-5xl bg-zinc-200 rounded-md text-black" />
+							<img src="/file-icon.png" alt="" width={50} height={30} />
 						) : (
-							<CiFolderOn className="text-5xl bg-zinc-700 rounded-md text-stone-200" />
+							<img src="/folder-icon2.png" alt="" width={50} height={30} />
 						)}
 						<span className="text-base">
 							{'title' in item ? item.title : item.name}
