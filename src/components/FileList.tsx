@@ -106,39 +106,36 @@ const FileList: React.FC<FileListProps> = ({
 	};
 
 	return (
-		<section className="flex-grow bg-zinc-950 text-stone-50 pl-4 md:pl-8 pt-8 pb-8">
-			<div className="flex flex-col items-center md:items-start gap-3">
-				<img src="/folder_main.png" alt="" height={50} width={50} />
-				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl text-stone-200">
+		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-8 ">
+			<div className="flex items-center  gap-3 mb-5">
+				<img src="/folder_main.png" alt="" height={70} width={70} />
+				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl 2xl:hidden text-stone-200">
 					Orchestrate
 				</h2>
 			</div>
-			{/* Wrap the ul element in a div with the appropriate padding and border */}
-			<div className="pb-8">
-				<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-12 gap-4 rounded-l-md border-l border-y border-zinc-700 p-3">
-					{allItems.map((item) => (
-						<li
-							key={item.id}
-							onClick={() => {
-								if ('title' in item) {
-									openFileViewer(item);
-								} else {
-									openFolderViewer(item);
-								}
-							}}
-							className="bg-transparent  flex flex-col items-center gap-3 py-4 hover:cursor-pointer  hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
-						>
-							{'title' in item ? (
-								<img src="/file-icon.png" alt="" width={50} height={30} />
-							) : (
-								<img src="/folder-icon2.png" alt="" width={50} height={30} />
-							)}
-							<span className="text-base">
-								{'title' in item ? item.title : item.name}
-							</span>
-						</li>
-					))}
-				</ul>
+			<div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-12 gap-4 rounded-l-md border-l border-y border-zinc-700 p-3">
+				{allItems.map((item) => (
+					<li
+						key={item.id}
+						onClick={() => {
+							if ('title' in item) {
+								openFileViewer(item);
+							} else {
+								openFolderViewer(item);
+							}
+						}}
+						className="bg-transparent flex flex-col items-center gap-3 py-2 sm:py-4 hover:cursor-pointer hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
+					>
+						{'title' in item ? (
+							<img src="/file-icon.png" alt="" width={30} height={20} />
+						) : (
+							<img src="/folder-icon2.png" alt="" width={30} height={20} />
+						)}
+						<span className="text-xs sm:text-base">
+							{'title' in item ? item.title : item.name}
+						</span>
+					</li>
+				))}
 			</div>
 
 			{selectedFile && (
