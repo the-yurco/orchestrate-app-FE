@@ -73,7 +73,7 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
-						<img src="/folder-icon2.png" alt="" width={50} height={30} />
+						<img src="/folder.svg" alt="" width={50} height={30} />
 						{folderName}
 					</h2>
 					<div className="flex gap-1">

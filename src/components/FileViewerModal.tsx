@@ -46,6 +46,21 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	);
 	const [isFolderDropdownOpen, setFolderDropdownOpen] = useState(false);
 
+	const getFileIcon = () => {
+		const fileExtension = file.title.split('.').pop()?.toLowerCase();
+
+		switch (fileExtension) {
+			case 'txt':
+				return '/file-type-txt-text-textedit.svg';
+			case 'md':
+				return '/document.svg';
+			case 'doc':
+				return '/file-type-doc-word-document.svg';
+			default:
+				return '/document.svg';
+		}
+	};
+
 	const handleSave = () => {
 		const existingExtension = file.title.split('.').pop() || '';
 
@@ -57,6 +72,14 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 
 		onSave(updatedFile);
 		onClose();
+	};
+
+	const handleMoveToFolder = () => {
+		if (selectedFolder !== null) {
+			onMoveToFolder(selectedFolder, file);
+			setFolderDropdownOpen(false);
+			onClose();
+		}
 	};
 
 	return (
@@ -95,12 +118,7 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 												))}
 											</select>
 											<button
-												onClick={() => {
-													if (selectedFolder !== null) {
-														onMoveToFolder(selectedFolder, file);
-														setFolderDropdownOpen(false);
-													}
-												}}
+												onClick={handleMoveToFolder}
 												className="w-max p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 flex items-center justify-center"
 											>
 												<CiLocationArrow1 className="text-2xl" />
@@ -109,7 +127,13 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 									</div>
 								)}
 							</div>
-							<img src="/file-icon.png" alt="" width={50} height={30} />
+							<img
+								src={getFileIcon()}
+								alt=""
+								width={50}
+								height={30}
+								className="rounded-md"
+							/>
 							<span>{file.title}</span>
 						</h2>
 					</div>

@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-	CiSquareRemove,
-	CiTrash,
-	CiFloppyDisk,
-	CiCircleMore,
-	CiMenuKebab
-} from 'react-icons/ci';
+import { CiSquareRemove, CiTrash, CiMenuKebab, CiImport } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -39,9 +33,52 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 		setFolderName(folder.name);
 	}, [folder.name]);
 
+	useEffect(() => {
+		const storedFolder = localStorage.getItem(`folder-${folder.id}`);
+		if (storedFolder) {
+			const parsedFolder = JSON.parse(storedFolder);
+			onSave(parsedFolder);
+		}
+	}, [folder.id, onSave]);
+
+	const getFileIcon = (file: FileData) => {
+		const fileExtension = file.title.split('.').pop()?.toLowerCase();
+
+		switch (fileExtension) {
+			case 'txt':
+				return '/file-type-txt-text-textedit.svg';
+			case 'md':
+				return '/document.svg';
+			case 'doc':
+				return '/file-type-doc-word-document.svg';
+			default:
+				return '/document.svg';
+		}
+	};
+
 	const handleSave = () => {
-		onSave({ ...folder, name: folderName });
+		const updatedFolder = { ...folder, name: folderName };
+		onSave(updatedFolder);
+
+		const storedFolders = JSON.parse(localStorage.getItem('folders') || '[]');
+		const updatedFolders = storedFolders.map((f: FolderData) =>
+			f.id === updatedFolder.id ? updatedFolder : f
+		);
+		localStorage.setItem('folders', JSON.stringify(updatedFolders));
+
 		onClose();
+	};
+
+	const handleDownload = (file: FileData) => {
+		const blob = new Blob([file.description], { type: 'text/plain' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = file.title;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
 	};
 
 	return (
@@ -53,7 +90,7 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 							<button className="p-1 border border-amber-700 bg-amber-950 rounded-md text-xs md:text-base hover:bg-amber-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2">
 								<CiMenuKebab className="text-xl" />
 							</button>
-							<img src="/folder-icon2.png" alt="" width={50} height={30} />
+							<img src="/folder.svg" alt="" width={50} height={30} />
 							<span>{folderName}</span>
 						</h2>
 					</div>
@@ -65,7 +102,7 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 							<CiTrash className="text-2xl" />
 						</button>
 						<button
-							onClick={onClose}
+							onClick={handleSave}
 							className="p-1 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 						>
 							<CiSquareRemove className="text-2xl" />
@@ -78,10 +115,25 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 							{folder.files.map((file) => (
 								<li
 									key={file.id}
-									className="text-stone-200 flex items-center border-b w-full border-zinc-800"
+									className="text-stone-200 flex items-center border-b w-full border-zinc-800 gap-1 justify-between p-1"
 								>
-									<img src="/file-icon.png" alt="" width={35} height={30} />
-									<span className="text-">{file.title}</span>
+									<div className="flex gap-1">
+										<img
+											src={getFileIcon(file)}
+											alt=""
+											width={25}
+											height={30}
+										/>
+										<span className="text-">{file.title}</span>
+									</div>
+									<div>
+										<button
+											onClick={() => handleDownload(file)}
+											className="p-1 border border-zinc-700 bg-transparent rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+										>
+											<CiImport />
+										</button>
+									</div>
 								</li>
 							))}
 						</ul>

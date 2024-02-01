@@ -1,4 +1,3 @@
-// Import statements (make sure to include all necessary imports)
 import React, { useEffect, useRef } from 'react';
 import { CiFileOn, CiFolderOn } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
@@ -90,20 +89,68 @@ const FileList: React.FC<FileListProps> = ({
 
 	const allItems = [...files, ...folders].sort((a, b) => b.id - a.id);
 
-	const handleMoveToFolder = (folderId: number, file: FileData) => {
-		const updatedFolders = folders.map((folder) =>
-			folder.id === folderId
-				? { ...folder, files: [...(folder.files || []), file] }
-				: folder
-		);
+	const getFileIcon = (file: FileData) => {
+		const fileExtension = file.title.split('.').pop()?.toLowerCase();
 
-		setFolders(updatedFolders);
+		switch (fileExtension) {
+			case 'txt':
+				return '/file-type-txt-text-textedit.svg';
+			case 'md':
+				return '/document.svg';
+			case 'doc':
+				return '/file-type-doc-word-document.svg';
+			default:
+				return '/document.svg';
+		}
+	};
 
+	const onMoveToFolder = (folderId: number, file: FileData) => {
 		const updatedFiles = files.filter((f) => f.id !== file.id);
 		setFiles(updatedFiles);
 
+		const updatedFolders = folders.map((folder) => {
+			if (folder.id === folderId) {
+				return {
+					...folder,
+					files: folder.files
+						? [...folder.files, { ...file, folderId }]
+						: [{ ...file, folderId }]
+				};
+			}
+			return folder;
+		});
+		setFolders(updatedFolders);
 		setSelectedFile(null);
 	};
+
+	const renderFileItem = (item: FileData | FolderData) => (
+		<li
+			key={item.id}
+			onClick={() => {
+				if ('title' in item) {
+					openFileViewer(item);
+				} else {
+					openFolderViewer(item);
+				}
+			}}
+			className="bg-transparent flex flex-col items-center gap-3 py-2 sm:py-4 hover:cursor-pointer hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
+		>
+			{'title' in item ? (
+				<img
+					src={getFileIcon(item)}
+					alt=""
+					width={30}
+					height={20}
+					className="rounded-md"
+				/>
+			) : (
+				<img src="/folder.svg" alt="" width={30} height={20} />
+			)}
+			<span className="text-xs sm:text-base">
+				{'title' in item ? item.title : item.name}
+			</span>
+		</li>
+	);
 
 	return (
 		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-8 ">
@@ -114,28 +161,7 @@ const FileList: React.FC<FileListProps> = ({
 				</h2>
 			</div>
 			<div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-12 gap-4 rounded-l-md border-l border-y border-zinc-700 p-3">
-				{allItems.map((item) => (
-					<li
-						key={item.id}
-						onClick={() => {
-							if ('title' in item) {
-								openFileViewer(item);
-							} else {
-								openFolderViewer(item);
-							}
-						}}
-						className="bg-transparent flex flex-col items-center gap-3 py-2 sm:py-4 hover:cursor-pointer hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
-					>
-						{'title' in item ? (
-							<img src="/file-icon.png" alt="" width={30} height={20} />
-						) : (
-							<img src="/folder-icon2.png" alt="" width={30} height={20} />
-						)}
-						<span className="text-xs sm:text-base">
-							{'title' in item ? item.title : item.name}
-						</span>
-					</li>
-				))}
+				{allItems.map(renderFileItem)}
 			</div>
 
 			{selectedFile && (
@@ -144,7 +170,7 @@ const FileList: React.FC<FileListProps> = ({
 					onClose={closeFileViewer}
 					onSave={updateFile}
 					onDelete={deleteFile}
-					onMoveToFolder={handleMoveToFolder}
+					onMoveToFolder={onMoveToFolder}
 					folders={folders}
 				/>
 			)}
