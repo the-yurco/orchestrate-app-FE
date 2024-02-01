@@ -1,3 +1,4 @@
+// Import statements (make sure to include all necessary imports)
 import React, { useEffect, useRef } from 'react';
 import { CiFileOn, CiFolderOn } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
@@ -14,6 +15,7 @@ type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
+	files?: FileData[];
 };
 
 type FileListProps = {
@@ -72,13 +74,36 @@ const FileList: React.FC<FileListProps> = ({
 
 	const deleteFolder = () => {
 		const updatedFolders = folders.filter(
-			(folder) => folder.id !== selectedFolder?.id
+			(folder: FolderData) => folder.id !== selectedFolder?.id
 		);
 		setFolders(updatedFolders);
 		closeFolderViewer();
+
+		const localStorageFolders = JSON.parse(
+			localStorage.getItem('folders') || '[]'
+		) as FolderData[];
+		const updatedLocalStorageFolders = localStorageFolders.filter(
+			(folder) => folder.id !== selectedFolder?.id
+		);
+		localStorage.setItem('folders', JSON.stringify(updatedLocalStorageFolders));
 	};
 
 	const allItems = [...files, ...folders].sort((a, b) => b.id - a.id);
+
+	const handleMoveToFolder = (folderId: number, file: FileData) => {
+		const updatedFolders = folders.map((folder) =>
+			folder.id === folderId
+				? { ...folder, files: [...(folder.files || []), file] }
+				: folder
+		);
+
+		setFolders(updatedFolders);
+
+		const updatedFiles = files.filter((f) => f.id !== file.id);
+		setFiles(updatedFiles);
+
+		setSelectedFile(null);
+	};
 
 	return (
 		<section className="flex-grow bg-zinc-950 text-stone-50 pl-8 pt-8 pb-8">
@@ -119,6 +144,8 @@ const FileList: React.FC<FileListProps> = ({
 					onClose={closeFileViewer}
 					onSave={updateFile}
 					onDelete={deleteFile}
+					onMoveToFolder={handleMoveToFolder}
+					folders={folders}
 				/>
 			)}
 

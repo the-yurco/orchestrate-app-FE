@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	CiSquareRemove,
-	CiCirclePlus,
 	CiTrash,
 	CiFloppyDisk,
 	CiCircleMore
 } from 'react-icons/ci';
 
+type FileData = {
+	id: number;
+	title: string;
+	description: string;
+};
+
 type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
+	files?: FileData[];
 };
 
 type FolderViewerModalProps = {
@@ -28,6 +34,10 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 }) => {
 	const [folderName, setFolderName] = useState(folder.name);
 
+	useEffect(() => {
+		setFolderName(folder.name);
+	}, [folder.name]);
+
 	const handleSave = () => {
 		onSave({ ...folder, name: folderName });
 		onClose();
@@ -35,12 +45,12 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 
 	return (
 		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<div className="flex justify-between items-center ">
+			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200 min-h-96">
+				<div className="flex justify-between items-center mb-10">
 					<div className="flex justify-center items-end">
 						<h2 className="text-3xl font-bold flex items-center gap-3 ">
 							<img src="/folder-icon2.png" alt="" width={50} height={30} />
-							{folder.name}
+							{folderName}
 						</h2>
 					</div>
 					<div className="flex justify-center items-center gap-5">
@@ -69,9 +79,24 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 						</button>
 					</div>
 				</div>
-				<div className="mb-4">
-					<h2 className="text-xl">Folder Files:</h2>
-					<ul></ul>
+				<div className="h-80">
+					{folder.files ? (
+						<ul className="flex flex-col gap-1">
+							{folder.files.map((file) => (
+								<li
+									key={file.id}
+									className="text-stone-200 flex items-center border-b w-full border-zinc-800"
+								>
+									<img src="/file-icon.png" alt="" width={35} height={30} />
+									<span className="text-">{file.title}</span>
+								</li>
+							))}
+						</ul>
+					) : (
+						<div className="flex items-center justify-center h-full">
+							<h1 className="text-5xl text-center">I'm Empty...</h1>
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

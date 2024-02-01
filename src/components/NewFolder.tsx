@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 
-type FileData = {
-	id: number;
-	title: string;
-	description: string;
-	files?: FileData[];
-};
-
 type FolderData = {
 	id: number;
 	name: string;
 	backgroundColor: string;
-	files?: FileData[];
 };
 
 type NewFolderProps = {
@@ -42,13 +34,22 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 	}, [setFolders]);
 
 	const handleSaveFolder = () => {
-		const truncatedFolderName = folderName.slice(0, MAX_NAME_LENGTH);
-		if (!folderName.trim()) {
+		const trimmedFolderName = folderName.trim();
+		const isValidName = /^[a-zA-Z0-9_-]+$/.test(trimmedFolderName);
+
+		if (!trimmedFolderName) {
 			alert('Please enter a folder name.');
 			return;
 		}
 
-		const folderTitle = `${truncatedFolderName}`;
+		if (!isValidName) {
+			alert(
+				'Folder name can only include letters, numbers, hyphens, and underscores.'
+			);
+			return;
+		}
+
+		const folderTitle = trimmedFolderName;
 
 		const newFolder: FolderData = {
 			id: Date.now(),

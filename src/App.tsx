@@ -99,6 +99,8 @@ const App: React.FC = () => {
 						);
 						closeFileViewer();
 					}}
+					onMoveToFolder={(folderId, file) => {}}
+					folders={[]}
 				/>
 			)}
 		</section>

@@ -12,22 +12,37 @@ type FileData = {
 	description: string;
 };
 
+type FolderData = {
+	id: number;
+	name: string;
+	backgroundColor: string;
+	files?: FileData[];
+};
+
 type FileViewerModalProps = {
 	file: FileData;
 	onClose: () => void;
 	onSave: (updatedFile: FileData) => void;
 	onDelete: () => void;
+	onMoveToFolder: (folderId: number, file: FileData) => void;
+	folders: FolderData[];
 };
 
 const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	file,
 	onClose,
 	onSave,
-	onDelete
+	onDelete,
+	onMoveToFolder,
+	folders
 }) => {
 	const [fileName, setFileName] = useState(file.title);
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
+	const [selectedFolder, setSelectedFolder] = useState<number | null | any>(
+		null
+	);
+	const [isFolderDropdownOpen, setFolderDropdownOpen] = useState(false);
 
 	const handleSave = () => {
 		const existingExtension = file.title.split('.').pop() || '';
@@ -66,9 +81,48 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 							>
 								<CiTrash className="text-2xl" />
 							</button>
-							<button className="p-1 border border-amber-700 bg-amber-950 rounded-md text-xs md:text-base hover:bg-amber-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2">
-								<CiCircleMore className="text-2xl" />
-							</button>
+							<div className="relative">
+								<button
+									onClick={() => setFolderDropdownOpen(!isFolderDropdownOpen)}
+									className="p-1 border border-amber-700 bg-amber-950 rounded-md text-xs md:text-base hover:bg-amber-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+								>
+									<CiCircleMore className="text-2xl" />
+								</button>
+								{isFolderDropdownOpen && (
+									<div className="absolute top-full right-0 mt-1 bg-zinc-900 p-2 rounded-md border border-zinc-800 text-stone-200 w-40">
+										<label className="block mb-1 text-sm">
+											Move to Folder:
+										</label>
+										<select
+											value={selectedFolder}
+											onChange={(e) =>
+												setSelectedFolder(Number(e.target.value))
+											}
+											className="w-full p-1 rounded-md bg-zinc-800 border border-zinc-700 text-stone-200"
+										>
+											<option value="" disabled>
+												Select Folder
+											</option>
+											{folders.map((folder) => (
+												<option key={folder.id} value={folder.id}>
+													{folder.name}
+												</option>
+											))}
+										</select>
+										<button
+											onClick={() => {
+												if (selectedFolder !== null) {
+													onMoveToFolder(selectedFolder, file);
+													setFolderDropdownOpen(false);
+												}
+											}}
+											className="w-full p-1 mt-2 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 flex items-center justify-center gap-2"
+										>
+											Move
+										</button>
+									</div>
+								)}
+							</div>
 						</div>
 						<button
 							onClick={onClose}

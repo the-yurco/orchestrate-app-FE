@@ -123,6 +123,8 @@ const SideBar: React.FC<SideBarProps> = ({
 					onClose={closeFileViewer}
 					onSave={updateFile}
 					onDelete={deleteFile}
+					onMoveToFolder={(folderId, file) => {}}
+					folders={folders}
 				/>
 			)}
 		</aside>

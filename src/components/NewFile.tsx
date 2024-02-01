@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-	CiSquareRemove,
-	CiSquarePlus,
-	CiSaveUp2,
-	CiFileOn
-} from 'react-icons/ci';
+import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 
 type FileData = {
 	id: number;
@@ -37,13 +32,22 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	};
 
 	const handleSaveFile = () => {
-		const truncatedFileName = fileName.slice(0, MAX_NAME_LENGTH);
-		if (!fileContent.trim() || !truncatedFileName.trim()) {
+		const trimmedFileName = fileName.trim();
+		const isValidName = /^[a-zA-Z0-9_-]+$/.test(trimmedFileName);
+
+		if (!fileContent.trim() || !trimmedFileName) {
 			alert('Please enter both file content and a file name.');
 			return;
 		}
 
-		const fileTitle = `${truncatedFileName}.${fileFormat}`;
+		if (!isValidName) {
+			alert(
+				'File name can only include letters, numbers, hyphens, and underscores.'
+			);
+			return;
+		}
+
+		const fileTitle = `${trimmedFileName}.${fileFormat}`;
 
 		const newFile: FileData = {
 			id: Date.now(),
