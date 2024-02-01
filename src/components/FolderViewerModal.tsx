@@ -44,8 +44,8 @@ const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200 min-h-96">
+		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center ">
+			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200 min-h-96">
 				<div className="flex justify-between items-center mb-10">
 					<div className="flex justify-center items-end">
 						<h2 className="text-3xl font-bold flex items-center gap-3 ">

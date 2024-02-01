@@ -64,7 +64,7 @@ const SideBar: React.FC<SideBarProps> = ({
 	};
 
 	return (
-		<aside className=" w-1/3 px-4 py-8 bg-zinc-950 text-stone-50 md:w-72 border-r border-t border-b border-zinc-700 rounded-r-md flex justify-start flex-col my-8">
+		<aside className="w-max md:w-1/3 lg:w-80 px-2 md:px-4 py-4 bg-zinc-950 text-stone-50 border-r border-t border-b border-zinc-700 rounded-r-md flex flex-col my-8">
 			<div className="h-full flex flex-col gap-3">
 				<div className=" flex gap-1 justify-between">
 					<div className="flex gap-1">

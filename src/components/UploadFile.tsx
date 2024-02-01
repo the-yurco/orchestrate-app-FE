@@ -76,9 +76,11 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4">File: {fileName}</h2>
+		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">
+			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 lg:p-12 xl:p-16 rounded-md border border-zinc-800 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 text-stone-200">
+				<h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+					File: {fileName}
+				</h2>
 
 				<div className="mb-4">
 					<h2 className="text-xl">Upload</h2>
@@ -112,17 +114,17 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
 					/>
 				</div>
-				<div className="flex gap-3">
+				<div className="flex flex-col sm:flex-row gap-3">
 					<button
 						onClick={handleSaveFile}
-						className="px-4 py-1 border border-green-700 bg-green-950  rounded-md text-xs md:text-base hover:bg-green-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						className="px-4 py-1 border border-green-700 bg-green-950 rounded-md text-xs md:text-base hover:bg-green-900 transition-all duration-300 w-full sm:w-auto uppercase flex items-center justify-center gap-2"
 					>
 						<CiSquarePlus />
 						Add
 					</button>
 					<button
 						onClick={onClose}
-						className=" px-4 py-1 border border-zinc-700 bg-zinc-800  rounded-md text-xs md:text-base hover:bg-zinc-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						className="px-4 py-1 border border-zinc-700 bg-zinc-800 rounded-md text-xs md:text-base hover:bg-zinc-700 transition-all duration-300 w-full sm:w-auto uppercase flex items-center justify-center gap-2 mt-2 sm:mt-0"
 					>
 						<CiSquareRemove />
 						Close

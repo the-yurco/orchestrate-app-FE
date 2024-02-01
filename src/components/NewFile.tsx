@@ -60,8 +60,8 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center ">
-			<div className="scale-up-animation bg-zinc-900 p-8 rounded-md border border-zinc-800 w-2/5 text-stone-200">
+		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center ">
+			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
 					<img src="/file-icon.png" alt="" width={50} height={30} />
 					{fileName}.{fileFormat}
