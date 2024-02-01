@@ -71,48 +71,34 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 	return (
 		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
-				<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
-					<img src="/folder-icon2.png" alt="" width={50} height={30} />{' '}
-					{folderName}
-				</h2>
-				<div className="mb-4">
-					<h2 className="text-xl">Enter Folder Name:</h2>
+				<div className="flex justify-between items-center">
+					<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+						<img src="/folder-icon2.png" alt="" width={50} height={30} />
+						{folderName}
+					</h2>
+					<div className="flex gap-1">
+						<button
+							onClick={handleSaveFolder}
+							className="p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						>
+							<CiSquarePlus className="text-2xl" />
+						</button>
+						<button
+							onClick={onClose}
+							className="p-1 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-max h-max uppercase flex items-center justify-center gap-2"
+						>
+							<CiSquareRemove className="text-2xl" />
+						</button>
+					</div>
+				</div>
+				<div className="">
 					<input
 						type="text"
+						placeholder="Folder Name"
 						value={folderName}
 						onChange={(e) => setFolderName(e.target.value)}
-						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
+						className="border p-2 w-full rounded-md border-amber-700 bg-amber-950"
 					/>
-				</div>
-				<div className="mb-4">
-					<h2 className="text-xl">Select Background Color:</h2>
-					<select
-						value={backgroundColor}
-						onChange={(e) => setBackgroundColor(e.target.value)}
-						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
-					>
-						{accessibleColors.map((color) => (
-							<option key={color} value={color}>
-								{color}
-							</option>
-						))}
-					</select>
-				</div>
-				<div className="flex gap-3">
-					<button
-						onClick={handleSaveFolder}
-						className="px-4 py-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
-					>
-						<CiSquarePlus />
-						Add
-					</button>
-					<button
-						onClick={onClose}
-						className="px-4 py-1 border border-zinc-700 bg-zinc-800 rounded-md text-xs md:text-base hover:bg-zinc-700 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
-					>
-						<CiSquareRemove />
-						Close
-					</button>
 				</div>
 			</div>
 		</div>
