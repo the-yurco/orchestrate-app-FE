@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { CiFileOn, CiFolderOn } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
 import FolderViewerModal from './FolderViewerModal';
+import ImageViewerModal from './ImageViewerModal'; // Import ImageViewerModal
 import Draggable from 'react-draggable';
 
 type FileData = {
@@ -134,7 +135,15 @@ const FileList: React.FC<FileListProps> = ({
 			key={item.id}
 			onClick={() => {
 				if ('title' in item) {
-					openFileViewer(item);
+					if (
+						['jpg', 'png'].includes(
+							item.title.split('.').pop()?.toLowerCase() || ''
+						)
+					) {
+						openImageViewer(item);
+					} else {
+						openFileViewer(item);
+					}
 				} else {
 					openFolderViewer(item);
 				}
@@ -158,6 +167,10 @@ const FileList: React.FC<FileListProps> = ({
 		</li>
 	);
 
+	const openImageViewer = (file: FileData) => {
+		setSelectedFile(file);
+	};
+
 	return (
 		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-8 ">
 			<div className="flex items-center  gap-3 mb-5">
@@ -171,14 +184,27 @@ const FileList: React.FC<FileListProps> = ({
 			</div>
 
 			{selectedFile && (
-				<FileViewerModal
-					file={selectedFile}
-					onClose={closeFileViewer}
-					onSave={updateFile}
-					onDelete={deleteFile}
-					onMoveToFolder={onMoveToFolder}
-					folders={folders}
-				/>
+				<>
+					{['jpg', 'png'].includes(
+						(selectedFile.title.split('.').pop() || '').toLowerCase()
+					) ? (
+						<ImageViewerModal
+							file={selectedFile}
+							onClose={closeFileViewer}
+							onSave={updateFile}
+							onDelete={deleteFile}
+						/>
+					) : (
+						<FileViewerModal
+							file={selectedFile}
+							onClose={closeFileViewer}
+							onSave={updateFile}
+							onDelete={deleteFile}
+							onMoveToFolder={onMoveToFolder}
+							folders={folders}
+						/>
+					)}
+				</>
 			)}
 
 			{selectedFolder && (
