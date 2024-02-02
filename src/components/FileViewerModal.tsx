@@ -42,7 +42,8 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
 	const [selectedFolder, setSelectedFolder] = useState<number | null | any>(
-		null
+		// when i get NULL it files will dissappear from the the folder when i refresh
+		folders.length > 0 ? folders[0].id : ' '
 	);
 	const [isFolderDropdownOpen, setFolderDropdownOpen] = useState(false);
 
@@ -102,15 +103,17 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 										</label>
 										<div className="flex items-center h-max gap-1">
 											<select
-												value={selectedFolder}
+												value={selectedFolder === null ? '' : selectedFolder}
 												onChange={(e) =>
-													setSelectedFolder(Number(e.target.value))
+													setSelectedFolder(
+														e.target.value === ''
+															? null
+															: Number(e.target.value)
+													)
 												}
 												className="w-full p-1 rounded-md bg-zinc-800 border border-zinc-700 text-stone-200 text-sm"
 											>
-												<option value="" disabled>
-													Select Folder
-												</option>
+												<option value="">-----</option>
 												{folders.map((folder) => (
 													<option key={folder.id} value={folder.id}>
 														{folder.name}
