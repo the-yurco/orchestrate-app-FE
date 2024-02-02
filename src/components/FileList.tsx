@@ -99,6 +99,12 @@ const FileList: React.FC<FileListProps> = ({
 				return '/document.svg';
 			case 'doc':
 				return '/file-type-doc-word-document.svg';
+			case 'docx':
+				return '/file-type-doc-word-document.svg';
+			case 'jpg':
+				return '/file-type-jpg-jpeg-image.svg';
+			case 'png':
+				return '/file-type-png-image.svg';
 			default:
 				return '/document.svg';
 		}

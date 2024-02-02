@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
+import { CiSquareRemove, CiSquarePlus, CiLocationArrow1 } from 'react-icons/ci';
+import { FaFileImage, FaFileAlt } from 'react-icons/fa';
 
 type FileData = {
 	id: number;
@@ -28,6 +29,8 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 		}
 	}, [setFiles]);
 
+	const allowedFormats = ['md', 'doc', 'docx', 'txt', 'jpg', 'png'];
+
 	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files && e.target.files[0];
 
@@ -42,10 +45,18 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 				}
 			};
 
-			if (selectedFile.type.startsWith('image/')) {
+			if (
+				selectedFile.type.startsWith('image/') &&
+				selectedFile.type.match(/\/(jpg|jpeg|png)$/)
+			) {
 				reader.readAsDataURL(selectedFile);
-			} else {
+			} else if (selectedFile.type.match(/\/(md|doc|docx|txt)$/)) {
 				reader.readAsText(selectedFile);
+			} else {
+				alert(
+					'Unsupported file format. Please upload files with formats: md, doc, docx, txt, jpg, png.'
+				);
+				return;
 			}
 		}
 	};
@@ -58,9 +69,28 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 			return;
 		}
 
-		const fileTitle = `${truncatedFileName}.${
-			fileContent instanceof ArrayBuffer ? 'png' : 'txt'
-		}`;
+		const dotCount = (fileName.match(/\./g) || []).length;
+
+		if (dotCount !== 1) {
+			alert(
+				'Invalid file name format. Please use only one dot between the filename and format.'
+			);
+			return;
+		}
+
+		const [name, fileExtension] = fileName.split('.');
+
+		if (
+			!fileExtension ||
+			!allowedFormats.includes(fileExtension.toLowerCase())
+		) {
+			alert(
+				'Unsupported file format. Please upload files with formats: md, doc, docx, txt, jpg, png.'
+			);
+			return;
+		}
+
+		const fileTitle = `${name}.${fileExtension}`;
 
 		const newFile: FileData = {
 			id: Date.now(),
@@ -76,12 +106,32 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-70 flex items-center justify-center">
-			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 lg:p-12 xl:p-16 rounded-md border border-zinc-800 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 text-stone-200">
-				<h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
-					File: {fileName}
-				</h2>
-
+		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
+			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
+				<div className="flex justify-between items-center">
+					<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+						{fileContent instanceof ArrayBuffer ? (
+							<FaFileImage className="text-4xl" />
+						) : (
+							<FaFileAlt className="text-4xl" />
+						)}
+						{fileName}
+					</h2>
+					<div className="flex gap-1">
+						<button
+							onClick={handleSaveFile}
+							className="p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
+						>
+							<CiSquarePlus className="text-2xl" />
+						</button>
+						<button
+							onClick={onClose}
+							className="p-1 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2 mt-2 sm:mt-0"
+						>
+							<CiSquareRemove className="text-2xl" />
+						</button>
+					</div>
+				</div>
 				<div className="mb-4">
 					<h2 className="text-xl">Upload</h2>
 					<input
@@ -105,7 +155,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 					</div>
 				)}
 				<div className="mb-4">
-					<h2 className="text-xl">Enter File Name:</h2>
+					<h2 className="text-xl">Change File Name:</h2>
 					<input
 						type="text"
 						value={fileName}
@@ -113,22 +163,6 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 						maxLength={MAX_NAME_LENGTH}
 						className="border p-2 w-full rounded-md text-zinc-950 bg-stone-200"
 					/>
-				</div>
-				<div className="flex flex-col sm:flex-row gap-3">
-					<button
-						onClick={handleSaveFile}
-						className="px-4 py-1 border border-green-700 bg-green-950 rounded-md text-xs md:text-base hover:bg-green-900 transition-all duration-300 w-full sm:w-auto uppercase flex items-center justify-center gap-2"
-					>
-						<CiSquarePlus />
-						Add
-					</button>
-					<button
-						onClick={onClose}
-						className="px-4 py-1 border border-zinc-700 bg-zinc-800 rounded-md text-xs md:text-base hover:bg-zinc-700 transition-all duration-300 w-full sm:w-auto uppercase flex items-center justify-center gap-2 mt-2 sm:mt-0"
-					>
-						<CiSquareRemove />
-						Close
-					</button>
 				</div>
 			</div>
 		</div>
