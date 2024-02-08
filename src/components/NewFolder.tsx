@@ -1,29 +1,25 @@
+// React Library IMPORTS
 import React, { useEffect, useState } from 'react';
+// React-Icons Library IMPORTS
 import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 
+// TYPES for folders
 type FolderData = {
 	id: number;
 	name: string;
-	backgroundColor: string;
 };
 
+// TYPES for the NewFolder component
 type NewFolderProps = {
 	onClose: () => void;
 	setFolders: React.Dispatch<React.SetStateAction<FolderData[]>>;
 };
 
 const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
+	// STATE for managing the folder name
 	const [folderName, setFolderName] = useState('');
-	const [backgroundColor, setBackgroundColor] = useState('#ffffff');
-	const MAX_NAME_LENGTH = 12;
-	const accessibleColors = [
-		'#FF5733',
-		'#FFC300',
-		'#33FF57',
-		'#33A2FF',
-		'#B633FF'
-	];
 
+	// EFFECT for getting the folders from localStorage
 	useEffect(() => {
 		const storedFolders = localStorage.getItem('folders');
 		if (storedFolders) {
@@ -33,6 +29,7 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 		}
 	}, [setFolders]);
 
+	// FUNCTION for adding and saving the folder
 	const handleSaveFolder = () => {
 		const trimmedFolderName = folderName.trim();
 		const isValidName = /^[a-zA-Z0-9_-]+$/.test(trimmedFolderName);
@@ -53,8 +50,7 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 
 		const newFolder: FolderData = {
 			id: Date.now(),
-			name: folderTitle,
-			backgroundColor: backgroundColor
+			name: folderTitle
 		};
 
 		setFolders((prevFolders) => {
@@ -73,9 +69,12 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+						{/* MODAL Header */}
 						<img src="/folder.svg" alt="" width={50} height={30} />
 						{folderName}
 					</h2>
+
+					{/* NewFolder action buttons */}
 					<div className="flex gap-1">
 						<button
 							onClick={handleSaveFolder}
@@ -91,6 +90,8 @@ const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
 						</button>
 					</div>
 				</div>
+
+				{/* NewFolder name input */}
 				<div className="">
 					<input
 						type="text"

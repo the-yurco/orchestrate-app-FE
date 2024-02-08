@@ -1,12 +1,16 @@
+// REACT library IMPORTS
 import React, { useState } from 'react';
+// Recat-Icons IMPORTS
 import { CiSquareRemove, CiTrash, CiFloppyDisk } from 'react-icons/ci';
 
+// TYPES for files
 type FileData = {
 	id: number;
 	title: string;
 	description: string;
 };
 
+// TYPES for the ImageViewerModal component
 type ImageViewerModalProps = {
 	file: FileData;
 	onClose: () => void;
@@ -20,22 +24,23 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 	onSave,
 	onDelete
 }) => {
+	// STATE for managing the file content and new file name
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
 
+	// FUNCTION for saving the file
 	const handleSave = () => {
 		const existingExtension = file.title.split('.').pop() || '';
-
 		const updatedFile: FileData = {
 			...file,
 			title: `${newFileName}.${existingExtension}`,
 			description: fileContent
 		};
-
 		onSave(updatedFile);
 		onClose();
 	};
 
+	// FUNCTION for getting the file icon
 	const getFileIcon = () => {
 		const fileExtension = file.title.split('.').pop()?.toLowerCase();
 
@@ -62,6 +67,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold flex items-center gap-3">
+						{/* File icon, title, and download button */}
 						<img
 							src={getFileIcon()}
 							alt=""

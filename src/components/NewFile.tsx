@@ -1,23 +1,29 @@
+// React Library IMPORTS
 import React, { useEffect, useState } from 'react';
+// React-Icons Library IMPORTS
 import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 
+// TYPES for files
 type FileData = {
 	id: number;
 	title: string;
 	description: string;
 };
 
+// TYPES for the NewFile component
 type NewFileProps = {
 	onClose: () => void;
 	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
 };
 
-const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
+const NewFile = ({ onClose, setFiles }: NewFileProps) => {
+	// STATE for managing the file format, content, and name
 	const [fileFormat, setFileFormat] = useState('txt');
 	const [fileContent, setFileContent] = useState('');
 	const [fileName, setFileName] = useState('');
 	const MAX_NAME_LENGTH = 10;
 
+	// EFFECT for getting the files from localStorage
 	useEffect(() => {
 		const storedFiles = localStorage.getItem('files');
 		if (storedFiles) {
@@ -27,11 +33,14 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 		}
 	}, [setFiles]);
 
+	// FUNCTION for handling the file format change
 	const handleFileFormatChange = (format: string) => {
 		setFileFormat(format);
 	};
 
+	// FUNCTION for saving the file
 	const handleSaveFile = () => {
+		// VALIDATIONS
 		const trimmedFileName = fileName.trim();
 		const isValidName = /^[a-zA-Z0-9_-]+$/.test(trimmedFileName);
 
@@ -59,6 +68,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 		onClose();
 	};
 
+	// FUNCTION for getting the file icon
 	const getFileIcon = () => {
 		switch (fileFormat) {
 			case 'doc':
@@ -77,6 +87,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
+						{/* File icon, title and format */}
 						<img
 							src={getFileIcon()}
 							alt=""
@@ -86,7 +97,10 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 						/>
 						{fileName}.{fileFormat}
 					</h2>
+
+					{/* NewFile action buttons */}
 					<div className="flex gap-1">
+						{/* Add and close buttons */}
 						<button
 							onClick={handleSaveFile}
 							className="p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
@@ -102,6 +116,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 					</div>
 				</div>
 				<div className="flex items-center gap-2">
+					{/* File name and format */}
 					<input
 						type="text"
 						value={fileName}
@@ -121,6 +136,7 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 					</select>
 				</div>
 				<div className="mb-2">
+					{/* File content */}
 					<textarea
 						value={fileContent}
 						onChange={(e) => setFileContent(e.target.value)}

@@ -19,7 +19,7 @@ type FileData = {
 type FolderData = {
 	id: number;
 	name: string;
-	backgroundColor: string;
+	// backgroundColor: string;
 	files?: FileData[];
 };
 
