@@ -1,13 +1,15 @@
+// REACT library IMPORTS
 import React, { useState } from 'react';
+// Recat-Icons IMPORTS
 import {
 	CiSquareRemove,
 	CiTrash,
 	CiFloppyDisk,
-	CiCircleMore,
 	CiMenuKebab,
 	CiLocationArrow1
 } from 'react-icons/ci';
 
+// TYPES for files and folders
 type FileData = {
 	id: number;
 	title: string;
@@ -21,6 +23,7 @@ type FolderData = {
 	files?: FileData[];
 };
 
+// TYPES for the FileViewerModal component
 type FileViewerModalProps = {
 	file: FileData;
 	onClose: () => void;
@@ -38,7 +41,7 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	onMoveToFolder,
 	folders
 }) => {
-	const [fileName, setFileName] = useState(file.title);
+	// STATE for managing the file content, new file name and its folder selection
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
 	const [selectedFolder, setSelectedFolder] = useState<number | null | any>(
@@ -47,6 +50,7 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 	);
 	const [isFolderDropdownOpen, setFolderDropdownOpen] = useState(false);
 
+	// FUNCTION for getting the file icon
 	const getFileIcon = () => {
 		const fileExtension = file.title.split('.').pop()?.toLowerCase();
 
@@ -68,19 +72,19 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 		}
 	};
 
+	// FUNCTION for handling the file save (title and content)
 	const handleSave = () => {
 		const existingExtension = file.title.split('.').pop() || '';
-
 		const updatedFile: FileData = {
 			...file,
 			title: `${newFileName}.${existingExtension}`,
 			description: fileContent
 		};
-
 		onSave(updatedFile);
 		onClose();
 	};
 
+	// FUNCTION for moving the file to a different folder
 	const handleMoveToFolder = () => {
 		if (selectedFolder !== null) {
 			onMoveToFolder(selectedFolder, file);
@@ -96,18 +100,22 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 					<div className="flex justify-center items-end">
 						<h2 className="text-3xl font-bold flex items-center gap-3 ">
 							<div className="relative">
+								{/* Folder dropdown button */}
 								<button
 									onClick={() => setFolderDropdownOpen(!isFolderDropdownOpen)}
 									className="p-1 border border-sky-700 bg-sky-950 rounded-md text-xs md:text-base hover:bg-sky-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
 								>
 									<CiMenuKebab className="text-xl" />
 								</button>
+
+								{/* Folder dropdown content */}
 								{isFolderDropdownOpen && (
 									<div className="absolute top-full left-0 mt-1 bg-zinc-900 p-2 rounded-md border border-zinc-800 text-stone-200 w-40">
 										<label className="block mb-1 text-sm">
 											Move to Folder:
 										</label>
 										<div className="flex items-center h-max gap-1">
+											{/* Folder selection */}
 											<select
 												value={selectedFolder === null ? '' : selectedFolder}
 												onChange={(e) =>
@@ -126,6 +134,8 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 													</option>
 												))}
 											</select>
+
+											{/* Move to Folder button */}
 											<button
 												onClick={handleMoveToFolder}
 												className="w-max p-1 border border-emerald-700 bg-emerald-950 rounded-md text-xs md:text-base hover:bg-emerald-900 transition-all duration-300 flex items-center justify-center"
@@ -136,6 +146,8 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 									</div>
 								)}
 							</div>
+
+							{/* File icon and title */}
 							<img
 								src={getFileIcon()}
 								alt=""
@@ -146,7 +158,10 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 							<span>{file.title}</span>
 						</h2>
 					</div>
+
+					{/* File action buttons */}
 					<div className="flex justify-center items-center gap-5">
+						{/* Save and delete buttons */}
 						<div className="flex gap-1">
 							<button
 								onClick={handleSave}
@@ -161,6 +176,8 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 								<CiTrash className="text-2xl" />
 							</button>
 						</div>
+
+						{/* Close button */}
 						<button
 							onClick={onClose}
 							className="p-1 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300 w-full uppercase flex items-center justify-center gap-2"
@@ -170,6 +187,7 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 					</div>
 				</div>
 
+				{/* File name input */}
 				<div className="my-4">
 					<input
 						type="text"
@@ -180,6 +198,8 @@ const FileViewerModal: React.FC<FileViewerModalProps> = ({
 						className="border p-2 w-full rounded-md text-stone-200 border-sky-700 bg-sky-950"
 					/>
 				</div>
+
+				{/* File content textarea */}
 				<div className="">
 					<textarea
 						value={fileContent}

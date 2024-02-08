@@ -36,7 +36,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 		onClose();
 	};
 
-	const getFileIcon = (file: FileData) => {
+	const getFileIcon = () => {
 		const fileExtension = file.title.split('.').pop()?.toLowerCase();
 
 		switch (fileExtension) {
@@ -63,10 +63,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold flex items-center gap-3">
 						<img
-							src={`/file-type-${file.title
-								.split('.')
-								.pop()
-								?.toLowerCase()}-image.svg`}
+							src={getFileIcon()}
 							alt=""
 							width={50}
 							height={30}

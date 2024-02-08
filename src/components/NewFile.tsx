@@ -65,6 +65,8 @@ const NewFile: React.FC<NewFileProps> = ({ onClose, setFiles }) => {
 				return '/file-type-doc-word-document.svg';
 			case 'txt':
 				return '/file-type-txt-text-textedit.svg';
+			case 'md':
+				return '/document.svg';
 			default:
 				return '/document.png';
 		}
