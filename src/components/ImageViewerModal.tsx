@@ -18,12 +18,12 @@ type ImageViewerModalProps = {
 	onDelete: () => void;
 };
 
-const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
+const ImageViewerModal = ({
 	file,
 	onClose,
 	onSave,
 	onDelete
-}) => {
+}: ImageViewerModalProps) => {
 	// STATE for managing the file content and new file name
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));

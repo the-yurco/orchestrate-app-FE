@@ -24,12 +24,12 @@ type FolderViewerModalProps = {
 	onDelete: () => void;
 };
 
-const FolderViewerModal: React.FC<FolderViewerModalProps> = ({
+const FolderViewerModal = ({
 	folder,
 	onClose,
 	onSave,
 	onDelete
-}) => {
+}: FolderViewerModalProps) => {
 	// STATE for managing the folder name
 	const [folderName, setFolderName] = useState(folder.name);
 

@@ -1,25 +1,31 @@
+// React Library IMPORTS
 import React, { useEffect, useState } from 'react';
-import { CiSquareRemove, CiSquarePlus, CiLocationArrow1 } from 'react-icons/ci';
+// React-Icons Library IMPORTS
+import { CiSquareRemove, CiSquarePlus } from 'react-icons/ci';
 import { FaFileImage, FaFileAlt } from 'react-icons/fa';
 
+// TYPES for files
 type FileData = {
 	id: number;
 	title: string;
 	description: string;
 };
 
+// TYPES for the UploadFile component
 type UploadFileProps = {
 	onClose: () => void;
 	setFiles: React.Dispatch<React.SetStateAction<FileData[]>>;
 };
 
-const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
+const UploadFile = ({ onClose, setFiles }: UploadFileProps) => {
+	// STATE for managing the file content and name
 	const [fileContent, setFileContent] = useState<string | ArrayBuffer | null>(
 		null
 	);
 	const [fileName, setFileName] = useState('');
-	const MAX_NAME_LENGTH = 12;
+	const MAX_NAME_LENGTH = 10;
 
+	// EFFECT for getting the files from localStorage
 	useEffect(() => {
 		const storedFiles = localStorage.getItem('files');
 		if (storedFiles) {
@@ -29,8 +35,10 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 		}
 	}, [setFiles]);
 
+	// ARRAY of allowed file formats
 	const allowedFormats = ['md', 'doc', 'docx', 'txt', 'jpg', 'png'];
 
+	// FUNCTION for handling the file upload
 	const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files && e.target.files[0];
 
@@ -61,6 +69,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ onClose, setFiles }) => {
 		}
 	};
 
+	// FUNCTION for saving the file
 	const handleSaveFile = () => {
 		const truncatedFileName = fileName.slice(0, MAX_NAME_LENGTH);
 

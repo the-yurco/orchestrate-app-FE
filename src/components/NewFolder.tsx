@@ -15,7 +15,7 @@ type NewFolderProps = {
 	setFolders: React.Dispatch<React.SetStateAction<FolderData[]>>;
 };
 
-const NewFolder: React.FC<NewFolderProps> = ({ onClose, setFolders }) => {
+const NewFolder = ({ onClose, setFolders }: NewFolderProps) => {
 	// STATE for managing the folder name
 	const [folderName, setFolderName] = useState('');
 

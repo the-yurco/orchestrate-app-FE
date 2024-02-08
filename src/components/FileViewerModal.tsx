@@ -33,14 +33,14 @@ type FileViewerModalProps = {
 	folders: FolderData[];
 };
 
-const FileViewerModal: React.FC<FileViewerModalProps> = ({
+const FileViewerModal = ({
 	file,
 	onClose,
 	onSave,
 	onDelete,
 	onMoveToFolder,
 	folders
-}) => {
+}: FileViewerModalProps) => {
 	// STATE for managing the file content, new file name and its folder selection
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
