@@ -6,6 +6,8 @@ import { CiFileOn, CiFolderOn, CiInboxOut } from 'react-icons/ci';
 import FileViewerModal from './FileViewerModal';
 import NewFolder from './NewFolder';
 
+import '../index.css';
+
 // TYPES for files and folders
 type FileData = {
 	id: number;
@@ -72,73 +74,103 @@ const SideBar = ({
 		setNewFolderModalOpen(true);
 	};
 
+	// Function to determine the appropriate icon based on file format
+	const getFileIcon = (file: FileData) => {
+		const fileExtension = file.title.split('.').pop()?.toLowerCase();
+
+		switch (fileExtension) {
+			case 'txt':
+				return (
+					<img
+						src="/file-type-txt-text-textedit.svg"
+						alt=""
+						width={20}
+						height={10}
+					/>
+				);
+			case 'md':
+				return <img src="/document.svg" alt="" width={20} height={10} />;
+			case 'doc':
+			case 'docx':
+				return (
+					<img
+						src="/file-type-doc-word-document.svg"
+						alt=""
+						width={20}
+						height={10}
+					/>
+				);
+			case 'jpg':
+				return (
+					<img
+						src="/file-type-jpg-jpeg-image.svg"
+						alt=""
+						width={20}
+						height={10}
+					/>
+				);
+			case 'png':
+				return (
+					<img src="/file-type-png-image.svg" alt="" width={20} height={10} />
+				);
+			default:
+				return <img src="/document.svg" alt="" width={20} height={10} />;
+		}
+	};
+
 	return (
-		<aside className="w-max md:w-1/3 lg:w-80 px-2 md:px-4 py-4 bg-zinc-950 text-stone-50 border-r border-t border-b border-zinc-700 rounded-r-md flex flex-col my-8">
-			<div className="h-full flex flex-col gap-3">
-				<div className=" flex gap-1 justify-between">
+		<aside className="w-max md:w-1/3 lg:w-80 px-2 md:px-4 py-4 bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 text-stone-50 border-r border-t border-b border-zinc-900 rounded-r-lg flex flex-col my-8">
+			<div className="h-full flex flex-col gap-3 ">
+				<div className="flex gap-1 justify-between ">
 					<div className="flex gap-1">
-						{/* Button for adding a new file */}
 						<button
 							onClick={onAddFile}
-							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300  uppercase flex items-center justify-center gap-2"
+							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-lg text-xs md:text-base  cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-[rgba(0,0,0,0.4)_0px_0px_0px_1px,rgba(0,0,0,0.65)_0px_4px_6px_-1px,rgba(255,255,255,0.08)_0px_1px_0px_inset] hover:shadow-[rgba(0,0,0,0.2)_0px_0px_0px_2px,rgba(0,0,0,0.85)_0px_2px_3px_-2px,rgba(255,255,255,0.16)_0px_0px_0px_inset] uppercase flex items-center justify-center gap-2"
 						>
-							<CiFileOn className=" text-stone-200" />
+							<CiFileOn className="text-stone-200" />
 						</button>
-
-						{/* Button for adding a new folder */}
 						<button
 							onClick={handleAddFolder}
-							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900  transition-all duration-300  uppercase flex items-center justify-center gap-2"
+							className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-lg text-xs md:text-base  cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-[rgba(0,0,0,0.4)_0px_0px_0px_1px,rgba(0,0,0,0.65)_0px_4px_6px_-1px,rgba(255,255,255,0.08)_0px_1px_0px_inset] hover:shadow-[rgba(0,0,0,0.2)_0px_0px_0px_2px,rgba(0,0,0,0.85)_0px_2px_3px_-2px,rgba(255,255,255,0.16)_0px_0px_0px_inset] uppercase flex items-center justify-center gap-2"
 						>
 							<CiFolderOn />
 						</button>
 					</div>
-
-					{/* Button for uploading a file */}
 					<button
 						onClick={onUploadFile}
-						className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-md text-xs md:text-base hover:bg-zinc-900 transition-all duration-300  uppercase flex items-center justify-center gap-2 "
+						className="px-2 py-2 border border-zinc-700 bg-zinc-950 rounded-lg text-xs md:text-base  cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-[rgba(0,0,0,0.4)_0px_0px_0px_1px,rgba(0,0,0,0.65)_0px_4px_6px_-1px,rgba(255,255,255,0.08)_0px_1px_0px_inset] hover:shadow-[rgba(0,0,0,0.2)_0px_0px_0px_2px,rgba(0,0,0,0.85)_0px_2px_3px_-2px,rgba(255,255,255,0.16)_0px_0px_0px_inset] uppercase flex items-center justify-center gap-2"
 					>
 						<CiInboxOut />
 					</button>
 				</div>
-
-				{/* List of recently created files */}
-				<ul className="border h-full border-zinc-700 rounded-md py-2 flex flex-col ">
-					<p className=" text-zinc-500 px-3 border-b border-zinc-700 pb-1">
-						Recent Created
+				<ul className="border h-full border-zinc-900 rounded-lg py-2 flex flex-col bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 shadow-lg">
+					<p className="text-stone-400 px-3 border-b border-zinc-950 pb-5 font-bold">
+						Recent Logged Files
 					</p>
-
-					{/* Mapping through files to display each file */}
 					{files
-						.sort((a, b) => b.id - a.id)
+						.sort((a, b) => b.id - a.id) // Change sorting to be based on the last move timestamp
 						.map((file) => (
 							<li
 								key={file.id}
 								onClick={() => openFileViewer(file)}
-								className="bg-transparent border-b border-zinc-800 flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-zinc-900 transition-all duration-300 px-3"
+								className="bg-transparent border-b border-zinc-900 flex items-center gap-3 py-1 hover:cursor-pointer hover:bg-zinc-900 transition-all duration-300 px-3"
 							>
-								{/* Displaying folder or file icon based on description */}
-								{file.description === 'Folder' ? (
-									<CiFolderOn />
-								) : (
-									<CiFileOn className="" />
-								)}{' '}
-								{file.title}
+								<div className="flex items-center gap-3">
+									{getFileIcon(file)}
+									<span className="text-xs sm:text-base font-semibold group-hover:text-opacity-90 transition-all duration-300 text-stone-200">
+										{file.title}
+									</span>
+								</div>
 							</li>
 						))}
 				</ul>
 			</div>
-
-			{/* Rendering the new folder modal if it is open */}
 			{isNewFolderModalOpen && (
 				<NewFolder
 					onClose={() => setNewFolderModalOpen(false)}
 					setFolders={setFolders}
 				/>
 			)}
-
-			{/* Rendering the file viewer modal if a file is selected */}
 			{selectedFile && (
 				<FileViewerModal
 					file={selectedFile}

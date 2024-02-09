@@ -153,24 +153,36 @@ const FileList = ({ files, setFiles, folders, setFolders }: FileListProps) => {
 					openFolderViewer(item);
 				}
 			}}
-			className="bg-transparent flex flex-col items-center gap-3 py-2 sm:py-4 hover:cursor-pointer hover:bg-opacity-40 transition-all duration-300 rounded-md hover:bg-zinc-800"
+			className="group relative overflow-hidden bg-transparent text-stone-200 rounded-lg p-3"
 		>
-			{'title' in item ? (
-				// Displaying file icon
-				<img
-					src={getFileIcon(item)}
-					alt=""
-					width={30}
-					height={20}
-					className="rounded-md"
-				/>
-			) : (
-				// Displaying folder icon
-				<img src="/folder.svg" alt="" width={30} height={20} />
-			)}
-			<span className="text-xs sm:text-base">
-				{'title' in item ? item.title : item.name}
-			</span>
+			<div className="flex flex-col items-center gap-3">
+				{'title' in item ? (
+					// Displaying file icon
+					<div className=" overflow-hidden bg-zinc-900  transition-all duration-300 rounded-lg px-3 py-5 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-[rgba(0,0,0,0.4)_0px_0px_0px_1px,rgba(0,0,0,0.65)_0px_4px_6px_-1px,rgba(255,255,255,0.08)_0px_1px_0px_inset] hover:shadow-[rgba(0,0,0,0.2)_0px_0px_0px_2px,rgba(0,0,0,0.85)_0px_2px_3px_-2px,rgba(255,255,255,0.16)_0px_1px_0px_inset]">
+						<img
+							src={getFileIcon(item)}
+							alt=""
+							width={40}
+							height={20}
+							className="transform hover:rotate-6 transition-transform duration-300"
+						/>
+					</div>
+				) : (
+					// Displaying folder icon
+					<div className=" overflow-hidden bg-zinc-900  transition-all duration-300 rounded-lg px-3 py-5 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-[rgba(0,0,0,0.4)_0px_0px_0px_1px,rgba(0,0,0,0.65)_0px_4px_6px_-1px,rgba(255,255,255,0.08)_0px_1px_0px_inset] hover:shadow-[rgba(0,0,0,0.2)_0px_0px_0px_2px,rgba(0,0,0,0.85)_0px_2px_3px_-2px,rgba(255,255,255,0.16)_0px_1px_0px_inset]">
+						<img
+							src="/folder.svg"
+							alt=""
+							width={40}
+							height={20}
+							className="transform hover:rotate-6 transition-transform duration-300"
+						/>
+					</div>
+				)}
+				<span className="text-xs sm:text-xs font-semibold group-hover:text-opacity-90 transition-all duration-300">
+					{'title' in item ? item.title : item.name}
+				</span>
+			</div>
 		</li>
 	);
 
@@ -180,20 +192,18 @@ const FileList = ({ files, setFiles, folders, setFolders }: FileListProps) => {
 	};
 
 	return (
-		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-8 ">
-			<div className="flex items-center  gap-3 mb-5">
+		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-4">
+			<div className="flex items-center gap-3 mb-5">
 				<img src="/folder_main.png" alt="" height={70} width={70} />
-				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl 2xl:hidden text-stone-200">
+				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl 2xl:text-4xl text-stone-200">
 					Orchestrate
 				</h2>
 			</div>
 
-			{/* Grid layout for displaying files and folders */}
-			<div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-12 gap-4 rounded-l-md border-l border-y border-zinc-700 p-3">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-12 grid-rows-5 gap-2 rounded-l-lg border-l border-y border-zinc-900 p-3 w-full md:w-auto transform transition-all duration-300 hover:shadow-lg bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
 				{allItems.map(renderFileItem)}
 			</div>
 
-			{/* Rendering image or file viewer modal based on the selected file */}
 			{selectedFile && (
 				<>
 					{['jpg', 'png'].includes(
@@ -218,7 +228,6 @@ const FileList = ({ files, setFiles, folders, setFolders }: FileListProps) => {
 				</>
 			)}
 
-			{/* Rendering folder viewer modal if a folder is selected */}
 			{selectedFolder && (
 				<FolderViewerModal
 					folder={selectedFolder}
