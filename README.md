@@ -27,4 +27,6 @@ In the project directory, you can run the following scripts:
 - `npm run eject`: Ejects from Create React App, giving full control over configuration.
 
 
-# orchestrate-app
+## Author
+
+[Iurai]
