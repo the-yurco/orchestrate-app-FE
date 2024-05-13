@@ -192,18 +192,20 @@ const FileList = ({ files, setFiles, folders, setFolders }: FileListProps) => {
 	};
 
 	return (
-		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-4">
-			<div className="flex items-center gap-3 mb-5">
+		<section className="flex-grow bg-zinc-950 text-stone-50 py-8 pl-4 md:pl-8 ">
+			<div className="flex items-center  gap-3 mb-5">
 				<img src="/folder_main.png" alt="" height={70} width={70} />
-				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl 2xl:text-4xl text-stone-200">
+				<h2 className="title_font font-bold uppercase md:text-3xl lg:text-5xl 2xl:hidden text-stone-200">
 					Orchestrate
 				</h2>
 			</div>
 
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-12 grid-rows-5 gap-2 rounded-l-lg border-l border-y border-zinc-900 p-3 w-full md:w-auto transform transition-all duration-300 hover:shadow-lg bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
+			{/* Grid layout for displaying files and folders */}
+			<div className="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 2xl:grid-cols-12 gap-4 rounded-l-md border-l border-y border-zinc-700 p-3">
 				{allItems.map(renderFileItem)}
 			</div>
 
+			{/* Rendering image or file viewer modal based on the selected file */}
 			{selectedFile && (
 				<>
 					{['jpg', 'png'].includes(
@@ -228,6 +230,7 @@ const FileList = ({ files, setFiles, folders, setFolders }: FileListProps) => {
 				</>
 			)}
 
+			{/* Rendering folder viewer modal if a folder is selected */}
 			{selectedFolder && (
 				<FolderViewerModal
 					folder={selectedFolder}
