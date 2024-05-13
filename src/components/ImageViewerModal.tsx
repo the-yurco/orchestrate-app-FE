@@ -28,6 +28,7 @@ const ImageViewerModal = ({
 	const [fileContent, setFileContent] = useState(file.description);
 	const [newFileName, setNewFileName] = useState(file.title.slice(0, 10));
 
+
 	// FUNCTION for saving the file
 	const handleSave = () => {
 		const existingExtension = file.title.split('.').pop() || '';

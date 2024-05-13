@@ -64,7 +64,9 @@ const NewFolder = ({ onClose, setFolders }: NewFolderProps) => {
 		onClose();
 	};
 
-	return (
+	
+
+    return (
 		<div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center">
 			<div className="scale-up-animation bg-zinc-900 p-4 md:p-8 rounded-md border border-zinc-800 w-full md:w-2/3 lg:w-1/2 text-stone-200">
 				<div className="flex justify-between items-center">
