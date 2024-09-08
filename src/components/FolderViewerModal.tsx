@@ -91,6 +91,7 @@ const FolderViewerModal = ({
               {/* Folder icon and name */}
               <img src="/folder.svg" alt="" width={50} height={30} />
               <span>{folderName}</span>
+              <span>asdasd</span>
             </h2>
           </div>
 
